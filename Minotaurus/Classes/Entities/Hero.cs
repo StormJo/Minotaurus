@@ -3,19 +3,24 @@ using Minotaurus.Classes.Animations;
 using Minotaurus.Classes.Interfaces;
 using Minotaurus.Classes.Movement;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using Minotaurus.Classes.Collision;
 
 namespace Minotaurus.Classes.Entities
 {
-    public class Hero : IGameObject
+    public class Hero : IGameObject, ICollide
     {
         private Texture2D texture;
         public Rectangle currentFrame;
 
         public Vector2 position;
+        public Rectangle HitBox { get; set; }
 
         public Physics _physics; 
 
         MovementController moveController;
+
+        CollisionDetector collisionDetector;
         #region-Animations
         Animation idleAnimationRight;
         Animation idleAnimationLeft;
@@ -30,13 +35,13 @@ namespace Minotaurus.Classes.Entities
         int attackFPS = 15;
         int jumpFPS = 1;
 
-        public Hero()
-        {
-        }
+       
+
         #endregion
         public Hero(Texture2D texture)
         {
             moveController = new MovementController();
+            collisionDetector = new CollisionDetector(this);
             _physics = new Physics();
             this.texture = texture;
             #region-Animations
@@ -95,24 +100,24 @@ namespace Minotaurus.Classes.Entities
         }
         public void Update(GameTime gameTime)
         {
-            position = moveController.update(position, _physics, gameTime);
+            moveController.update(_physics, gameTime);
             Animation animation = null;
 
-            if (moveController.state == State.Idle)
+            if (moveController.State == State.Idle)
             {
                 if (_physics.velocity.X > 0)
                 {
-                    moveController.isRight = true;
+                    moveController.IsRight = true;
                     animation = idleAnimationRight;
                 }
                 else if (_physics.velocity.X < 0)
                 {
                     animation = idleAnimationLeft;
-                    moveController.isRight = false;
+                    moveController.IsRight = false;
                 }
                 else
                 {
-                    if (moveController.isRight)
+                    if (moveController.IsRight)
                     {
                         animation = idleAnimationRight;
                     }
@@ -123,7 +128,7 @@ namespace Minotaurus.Classes.Entities
                 }
             }
 
-            if (moveController.state == State.Walking)
+            if (moveController.State == State.Walking)
             {
                 if (_physics.velocity.X > 0)
                 {
@@ -135,7 +140,7 @@ namespace Minotaurus.Classes.Entities
                 }
             }
 
-            if (moveController.state == State.Jumping)
+            if (moveController.State == State.Jumping)
             {
                 if (_physics.velocity.X > 0)
                 {
@@ -153,7 +158,28 @@ namespace Minotaurus.Classes.Entities
                 currentFrame = animation.CurrentFrame.SourceRectangle;
             }
 
-            _physics.update(gameTime);
+            _physics.ApplyGravity(gameTime);
+            var newPosition = _physics.Update(position, gameTime);
+            
+            HitBox = new Rectangle((int)newPosition.X, (int)newPosition.Y, currentFrame.Width, currentFrame.Height);
+            if (collisionDetector.Update())
+            {
+                if (moveController.IsRight && _physics.velocity.X > 0)
+                {
+                    _physics.velocity.X = 0;
+                }
+                if (moveController.IsLeft && _physics.velocity.X < 0)
+                {
+                    _physics.velocity.X = 0;
+                }
+
+                position = _physics.Update(position, gameTime);
+            }
+            else
+            {
+                position = newPosition;
+            }
+            
         }
         public void Draw(SpriteBatch spriteBatch)
         {

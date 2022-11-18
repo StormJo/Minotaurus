@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Minotaurus.Classes.Entities;
+using Minotaurus.Classes.Interfaces;
+using Minotaurus.Classes.Levels;
 
 namespace Minotaurus
 {
@@ -9,13 +11,13 @@ namespace Minotaurus
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Texture2D _minotaurTexture;
-        private Hero hero;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            World.LoadedLevel = new LevelOne();
         }
         
         protected override void Initialize()
@@ -23,14 +25,13 @@ namespace Minotaurus
             // TODO: Add your initialization logic here
 
             base.Initialize();
-
-            hero = new Hero(_minotaurTexture);
+            World.LoadedLevel.Initialize();
         }
 
         protected override void LoadContent()
         {
 
-            _minotaurTexture = Content.Load<Texture2D>("spritesheetMinotaur");
+            World.LoadedLevel.LoadContent(Content);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
@@ -42,7 +43,7 @@ namespace Minotaurus
                 Exit();
 
             // TODO: Add your update logic here
-            hero.Update(gameTime);
+            World.LoadedLevel.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -50,7 +51,7 @@ namespace Minotaurus
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null, null, null);
-            hero.Draw(_spriteBatch);
+            World.LoadedLevel.Draw(_spriteBatch);
             _spriteBatch.End();
             // TODO: Add your drawing code here
 
