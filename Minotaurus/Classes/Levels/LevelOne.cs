@@ -17,7 +17,6 @@ namespace Minotaurus.Classes.Levels
         private Texture2D _minotaurTexture;
 
         private List<IGameObject> gameObjects;
-        private DebugRectangle debugRectangle;
         public LevelOne() 
         {
             gameObjects = new List<IGameObject>();
@@ -30,7 +29,10 @@ namespace Minotaurus.Classes.Levels
         public void Initialize()
         {
             gameObjects.Add(new DebugRectangle(new Rectangle(0, 200, 1000, 300)));
-            gameObjects.Add(new DebugRectangle(new Rectangle(250, 100, 100, 300)));
+            gameObjects.Add(new DebugRectangle(new Rectangle(250, 150, 50, 50)));
+            gameObjects.Add(new DebugRectangle(new Rectangle(300, 100, 50, 100)));
+            gameObjects.Add(new DebugRectangle(new Rectangle(430, 70, 50, 50)));
+            gameObjects.Add(new DebugRectangle(new Rectangle(560, 150, 50, 50)));
             gameObjects.Add(new Hero(_minotaurTexture));
             
         }

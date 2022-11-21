@@ -5,6 +5,7 @@ using Minotaurus.Classes.Movement;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Minotaurus.Classes.Collision;
+using System;
 
 namespace Minotaurus.Classes.Entities
 {
@@ -41,8 +42,9 @@ namespace Minotaurus.Classes.Entities
         public Hero(Texture2D texture)
         {
             moveController = new MovementController();
-            collisionDetector = new CollisionDetector(this);
             _physics = new Physics();
+            collisionDetector = new CollisionDetector(this, _physics, moveController);
+       
             this.texture = texture;
             #region-Animations
             idleAnimationRight = new Animation(idleFPS);
@@ -159,31 +161,26 @@ namespace Minotaurus.Classes.Entities
             }
 
             _physics.ApplyGravity(gameTime);
-            var newPosition = _physics.Update(position, gameTime);
-            
-            HitBox = new Rectangle((int)newPosition.X, (int)newPosition.Y, currentFrame.Width, currentFrame.Height);
-            if (collisionDetector.Update())
-            {
-                if (moveController.IsRight && _physics.velocity.X > 0)
-                {
-                    _physics.velocity.X = 0;
-                }
-                if (moveController.IsLeft && _physics.velocity.X < 0)
-                {
-                    _physics.velocity.X = 0;
-                }
+            UpdateCollision(gameTime);
+            position = _physics.Update(position, gameTime);
 
-                position = _physics.Update(position, gameTime);
-            }
-            else
-            {
-                position = newPosition;
-            }
-            
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, position, currentFrame, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+        }
+
+        private void UpdateCollision(GameTime gameTime)
+        {
+            var newPosition = _physics.Update(position, gameTime);
+
+            var hitBox = new Rectangle((int)newPosition.X, (int)position.Y, currentFrame.Width, currentFrame.Height);
+
+            collisionDetector.CheckCollision(hitBox, 0);
+
+            hitBox = new Rectangle((int)position.X, (int)newPosition.Y, currentFrame.Width, currentFrame.Height);
+
+            collisionDetector.CheckCollision(hitBox, 1);
         }
 
 
