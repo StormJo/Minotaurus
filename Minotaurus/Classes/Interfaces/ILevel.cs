@@ -15,7 +15,7 @@ namespace Minotaurus.Classes.Interfaces
         public void LoadContent(ContentManager content);
         public void Update(GameTime gameTime);
         public void Draw(SpriteBatch spriteBatch);
-
+        public void AddGameObject(IGameObject gameObject);
         public List<IGameObject> GetGameObjects();
 
     }

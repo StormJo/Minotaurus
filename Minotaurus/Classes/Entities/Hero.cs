@@ -13,14 +13,10 @@ namespace Minotaurus.Classes.Entities
     {
         private Texture2D texture;
         public Rectangle currentFrame;
-
         public Vector2 position;
         public Rectangle HitBox { get; set; }
-
         public Physics _physics; 
-
         MovementController moveController;
-
         CollisionDetector collisionDetector;
         #region-Animations
         Animation idleAnimationRight;
@@ -39,12 +35,12 @@ namespace Minotaurus.Classes.Entities
        
 
         #endregion
+
         public Hero(Texture2D texture)
         {
             moveController = new MovementController();
             _physics = new Physics();
             collisionDetector = new CollisionDetector(this, _physics, moveController);
-       
             this.texture = texture;
             #region-Animations
             idleAnimationRight = new Animation(idleFPS);
@@ -103,8 +99,8 @@ namespace Minotaurus.Classes.Entities
         public void Update(GameTime gameTime)
         {
             moveController.update(_physics, gameTime);
+            #region-AnimationRegulator
             Animation animation = null;
-
             if (moveController.State == State.Idle)
             {
                 if (_physics.velocity.X > 0)
@@ -144,7 +140,7 @@ namespace Minotaurus.Classes.Entities
 
             if (moveController.State == State.Jumping)
             {
-                if (_physics.velocity.X > 0)
+                if (moveController.IsRight)
                 {
                     animation = jumpRight;
                 }
@@ -159,10 +155,11 @@ namespace Minotaurus.Classes.Entities
                 animation.FrameCheck(gameTime);
                 currentFrame = animation.CurrentFrame.SourceRectangle;
             }
-
+            #endregion
             _physics.ApplyGravity(gameTime);
             UpdateCollision(gameTime);
             position = _physics.Update(position, gameTime);
+            HitBox = new Rectangle((int)position.X, (int)position.Y, currentFrame.Width, currentFrame.Height);
 
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -174,13 +171,8 @@ namespace Minotaurus.Classes.Entities
         {
             var newPosition = _physics.Update(position, gameTime);
 
-            var hitBox = new Rectangle((int)newPosition.X, (int)position.Y, currentFrame.Width, currentFrame.Height);
-
-            collisionDetector.CheckCollision(hitBox, 0);
-
-            hitBox = new Rectangle((int)position.X, (int)newPosition.Y, currentFrame.Width, currentFrame.Height);
-
-            collisionDetector.CheckCollision(hitBox, 1);
+            collisionDetector.CheckCollision(new Rectangle((int)newPosition.X, (int)position.Y, currentFrame.Width, currentFrame.Height), 1); //Check horizontal
+            collisionDetector.CheckCollision(new Rectangle((int)position.X, (int)newPosition.Y, currentFrame.Width, currentFrame.Height), 0); //Check vertical
         }
 
 

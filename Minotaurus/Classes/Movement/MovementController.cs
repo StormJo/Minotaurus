@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using Minotaurus.Classes.Interfaces;
 
 namespace Minotaurus.Classes.Movement
 {
@@ -9,21 +10,14 @@ namespace Minotaurus.Classes.Movement
         public State State { get; set; }
         public Vector2 NextFramePosition { get; set; }
 
-        public bool Grounded { get; set; }
+        public IGameObject Floor { get; set; }
         public bool IsLeft { get; set; } = false;
         public bool IsRight { get; set; } = true;
 
         public void update(Physics _physics, GameTime gameTime)
         {
-            if (!Grounded)
+            if (Floor == null)
             {
-                if (_physics.velocity.Y == 0)
-                {
-                    Grounded = true;
-                    _physics.velocity.Y = 0;
-                }
-                else
-                {
                     if (Keyboard.GetState().IsKeyDown(Keys.D))
                     {
                         IsLeft = false;
@@ -39,7 +33,6 @@ namespace Minotaurus.Classes.Movement
                         _physics.RunSpeed(1100f, -1, 0.25f, gameTime);
                         State = State.Jumping;
                     }
-                }
             }
             else
             {
@@ -47,10 +40,10 @@ namespace Minotaurus.Classes.Movement
                 State = State.Idle;
 
                 //JUMPING
-                if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                if (Keyboard.GetState().IsKeyDown(Keys.Space) && Floor != null)
                 {
                     _physics.ImpulseY(-400f);
-                    Grounded = false;
+                    Floor = null;
                     State = State.Jumping;
                 }
                 //MOVING RIGHT

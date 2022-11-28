@@ -26,7 +26,7 @@ namespace Minotaurus.Classes.Collision
             this.self = self;
         }
 
-        public bool CheckCollision(Rectangle hitBox, int checkNumber)
+        public bool CheckCollision(Rectangle hitBox, int direction)
         {
             foreach (var gameObject in gameObjects)
             {
@@ -40,13 +40,17 @@ namespace Minotaurus.Classes.Collision
                 {
                     if (hitBox.Intersects(collide.HitBox))
                     {
-                        if (checkNumber == 0)
+                        if (direction == 1)
                         {
                             if (Physics.velocity.X != 0)
                                 Physics.velocity.X = 0;
                         }
                         else
                         {
+                            if(Physics.velocity.Y > 0)
+                            {
+                                movementController.Floor = gameObject;
+                            }
                             if (Physics.velocity.Y != 0)
                                 Physics.velocity.Y = 0;
                         }

@@ -5,20 +5,24 @@ using Minotaurus.Classes.Entities;
 using Minotaurus.Classes.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.Metrics;
 
 namespace Minotaurus.Classes.Levels
 {
-    internal class LevelOne: ILevel
+    internal class LevelOne : ILevel
     {
-        private Texture2D _minotaurTexture;
+        private int[,] levelOneMap = {
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,2, 3, 1, 2, 3, 0, 0, 0, 0 },
+            {0,0, 0, 0, 0, 0, 0, 1, 2, 3, 1, 1, 1, 1, 1, 1, 1, 2, 3, 1},
+            {1, 2, 3, 1, 2, 3, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        };
 
+        private Texture2D _minotaurTexture, _LevelOneTile;
+        private WorldManager _worldWorldManager;
         private List<IGameObject> gameObjects;
         public LevelOne() 
         {
+            _worldWorldManager = new WorldManager(levelOneMap);
             gameObjects = new List<IGameObject>();
         }
 
@@ -28,17 +32,14 @@ namespace Minotaurus.Classes.Levels
         }
         public void Initialize()
         {
-            gameObjects.Add(new DebugRectangle(new Rectangle(0, 200, 1000, 300)));
-            gameObjects.Add(new DebugRectangle(new Rectangle(250, 150, 50, 50)));
-            gameObjects.Add(new DebugRectangle(new Rectangle(300, 100, 50, 100)));
-            gameObjects.Add(new DebugRectangle(new Rectangle(430, 70, 50, 50)));
-            gameObjects.Add(new DebugRectangle(new Rectangle(560, 150, 50, 50)));
+            _worldWorldManager.CheckTiles(_LevelOneTile);
             gameObjects.Add(new Hero(_minotaurTexture));
             
         }
 
         public void LoadContent(ContentManager content)
         {
+            _LevelOneTile = content.Load<Texture2D>("tileset");
             _minotaurTexture = content.Load<Texture2D>("spritesheetMinotaur");
         }
 
@@ -55,6 +56,11 @@ namespace Minotaurus.Classes.Levels
             {
                 gameObject.Draw(spriteBatch);
             }
+        }
+
+        public void AddGameObject(IGameObject gameObject)
+        {
+            gameObjects.Add(gameObject);
         }
     }
 }
