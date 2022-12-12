@@ -9,12 +9,14 @@ using System;
 
 namespace Minotaurus.Classes.Entities
 {
-    public class Hero : IGameObject, ICollide
+    public class Hero : IGameObject, ICollide, IEntity
     {
         private Texture2D texture;
         public Rectangle currentFrame;
         public Vector2 position;
         public Rectangle HitBox { get; set; }
+        public int Health { get; set; } = 200;
+
         public Physics _physics; 
         MovementController moveController;
         CollisionDetector collisionDetector;

@@ -9,17 +9,15 @@ namespace Minotaurus.Classes.Entities.Static
         public Rectangle HitBox { get; }
         public GrassTile(int X, int Y, Texture2D texture, int grassType) : base(X, Y, texture)
         {
-            scale = 2f;
-
-            if (grassType == 1)
+            if (grassType == 1) //First type in spritesheet
             {
                 currentFrame = new Rectangle(16, 16, 16, 16);
             }
-            else if (grassType == 2)
+            else if (grassType == 2) //Second type in sprite
             {
                 currentFrame = new Rectangle(48, 16, 16, 16);
             }
-            else if (grassType == 3)
+            else if (grassType == 3) //Third type in sprite
             {
                 currentFrame = new Rectangle(80, 16, 16, 16);
             }

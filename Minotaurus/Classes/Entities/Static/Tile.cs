@@ -8,7 +8,6 @@ namespace Minotaurus.Classes.Entities.Static
     public class Tile : IGameObject
     {
         private Texture2D texture;
-        protected float scale = 1f;
 
         public Vector2 position;
         public Rectangle currentFrame;
@@ -24,7 +23,7 @@ namespace Minotaurus.Classes.Entities.Static
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, currentFrame, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, position, currentFrame, Color.White);
         }
 
 

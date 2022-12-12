@@ -13,10 +13,10 @@ namespace Minotaurus.Classes.Collision
     internal class CollisionDetector
     {
         List<IGameObject> gameObjects;
-        private ICollide self;
+        private IEntity self;
         Physics Physics = new Physics();
         MovementController movementController = new MovementController();
-        public CollisionDetector(ICollide self, Physics physics, MovementController movementController) 
+        public CollisionDetector(IEntity self, Physics physics, MovementController movementController) 
         {
             gameObjects = World.LoadedLevel.GetGameObjects();
 
@@ -54,6 +54,14 @@ namespace Minotaurus.Classes.Collision
                             if (Physics.velocity.Y != 0)
                                 Physics.velocity.Y = 0;
                         }
+                    }
+                }
+
+                if(gameObject is ITrigger trigger)
+                {
+                    if(hitBox.Intersects(trigger.HitBox))
+                    {
+                        self.Health -= 50;
                     }
                 }
             }
