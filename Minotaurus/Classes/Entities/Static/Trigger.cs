@@ -1,14 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Minotaurus.Classes.Interfaces;
-
+using System;
 
 namespace Minotaurus.Classes.Entities.Static
 {
-    internal class Triggers : Tile, ITrigger
+    internal class Trigger : Tile, ITrigger
     {
         public Rectangle HitBox { get; }
-        public Triggers(int X, int Y, Texture2D texture, int sortProp) : base(X, Y, texture)
+
+        public DateTime LastTriggerTime { get; set; } = DateTime.MinValue;
+
+        public float Cooldown => 2;
+
+        public Trigger(int X, int Y, Texture2D texture, int sortProp) : base(X, Y, texture)
         {
             if (sortProp == 23)// Spikes
             {

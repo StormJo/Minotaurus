@@ -38,8 +38,8 @@ namespace Minotaurus
 
         protected override void LoadContent()
         {
-            _background = Content.Load<Texture2D>("back");
             World.LoadedLevel.LoadContent(Content);
+            _background = Content.Load<Texture2D>("back");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here

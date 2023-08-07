@@ -17,33 +17,39 @@ namespace Minotaurus.Classes.Levels
             {
                 for (int j = 0; j < Map.GetLength(1); j++)
                 {
-                    if (Map[i, j] > 0 && Map[i,j] <= 3)
+                    if(texture.Name == "tileset")
                     {
-                        World.LoadedLevel.AddGameObject(new GrassTile(j * tileSize, i * tileSize, texture, Map[i,j]));
+                        if (Map[i, j] > 0 && Map[i, j] <= 3)
+                        {
+                            World.LoadedLevel.AddGameObject(new GrassTile(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
+                        if (Map[i, j] > 3 && Map[i, j] <= 6)
+                        {
+                            World.LoadedLevel.AddGameObject(new GroundTile(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
+                        if (Map[i, j] > 6 && Map[i, j] <= 9)
+                        {
+                            World.LoadedLevel.AddGameObject(new FloatingIslandGrass(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
+                        if (Map[i, j] > 9 && Map[i, j] <= 13)
+                        {
+                            World.LoadedLevel.AddGameObject(new TransitionGroundTile(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
+                        if (Map[i, j] >= 14 && Map[i, j] <= 21)
+                        {
+                            World.LoadedLevel.AddGameObject(new CollidingProp(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
                     }
-                    if (Map[i, j] > 3 && Map[i, j] <= 6)
+                    if(texture.Name == "props")
                     {
-                        World.LoadedLevel.AddGameObject(new GroundTile(j * tileSize, i * tileSize, texture, Map[i, j]));
-                    }
-                    if (Map[i, j] > 6 && Map[i, j] <= 9)
-                    {
-                        World.LoadedLevel.AddGameObject(new FloatingIslandGrass(j * tileSize, i * tileSize, texture, Map[i, j]));
-                    }
-                    if (Map[i, j] > 9 && Map[i, j] <= 13)
-                    {
-                        World.LoadedLevel.AddGameObject(new TransitionGroundTile(j * tileSize, i * tileSize, texture, Map[i, j]));
-                    }
-                    if (Map[i, j] >= 14 && Map[i,j] <= 21)
-                    {
-                        World.LoadedLevel.AddGameObject(new CollidingProp(j * tileSize, i * tileSize, texture, Map[i,j]));
-                    }
-                    if (Map[i,j] >= 22 && Map[i,j] <= 22)
-                    {
-                        World.LoadedLevel.AddGameObject(new NoCollidingProp(j * tileSize, i * tileSize, texture, Map[i, j]));
-                    }
-                    if (Map[i, j] >= 23 && Map[i, j] <= 23)
-                    {
-                        World.LoadedLevel.AddGameObject(new Triggers(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        if (Map[i, j] >= 22 && Map[i, j] <= 22)
+                        {
+                            World.LoadedLevel.AddGameObject(new NoCollidingProp(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
+                        if (Map[i, j] >= 23 && Map[i, j] <= 23)
+                        {
+                            World.LoadedLevel.AddGameObject(new Trigger(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
                     }
                 }
             }
