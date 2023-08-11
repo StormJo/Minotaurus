@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace Minotaurus.Classes.Interfaces
 {
-    internal interface IState
+    public interface IState
     {
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
-
     }
 }

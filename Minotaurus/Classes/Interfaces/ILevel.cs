@@ -9,13 +9,10 @@ using System.Threading.Tasks;
 
 namespace Minotaurus.Classes.Interfaces
 {
-    internal interface ILevel
+    public interface ILevel
     {
-        public void Initialize();
-        public void LoadContent(ContentManager content);
         public void Update(GameTime gameTime);
         public void Draw(SpriteBatch spriteBatch);
-        public void AddGameObject(IGameObject gameObject);
         public List<IGameObject> GetGameObjects();
 
     }

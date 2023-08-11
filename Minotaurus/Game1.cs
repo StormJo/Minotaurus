@@ -4,15 +4,22 @@ using Microsoft.Xna.Framework.Input;
 using Minotaurus.Classes.Entities;
 using Minotaurus.Classes.Interfaces;
 using Minotaurus.Classes.Levels;
+using Minotaurus.Classes.States;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Minotaurus
 {
     public class Game1 : Game
     {
+        public static Dictionary<string, Texture2D> Textures;
+        public SpriteFont font;
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D _background;
+        private static IState _currentState;
+        private IState _nextState;
 
         private static RenderTarget2D _renderTarget;
         private const int _screenHeight = 1440;
@@ -23,7 +30,6 @@ namespace Minotaurus
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            World.LoadedLevel = new LevelOne();
         }
         
         protected override void Initialize()
@@ -31,15 +37,25 @@ namespace Minotaurus
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            World.LoadedLevel.Initialize();
             PresentationParameters pp = _graphics.GraphicsDevice.PresentationParameters;
             _renderTarget = new RenderTarget2D(_graphics.GraphicsDevice, 800, 608, false, SurfaceFormat.Color, DepthFormat.None, pp.MultiSampleCount, RenderTargetUsage.DiscardContents);
+            _currentState = new GameState();
         }
 
         protected override void LoadContent()
         {
-            World.LoadedLevel.LoadContent(Content);
-            _background = Content.Load<Texture2D>("back");
+            font = Content.Load<SpriteFont>("Freshman");
+
+            Textures = new Dictionary<string, Texture2D>
+            {
+                { "back", Content.Load<Texture2D>("back") },
+                { "tileset", Content.Load<Texture2D>("tileset") },
+                { "props", Content.Load<Texture2D>("props") },
+                { "spritesheetMinotaur", Content.Load<Texture2D>("spritesheetMinotaur") },
+                { "HeartIcon", Content.Load<Texture2D>("HeartIcon") },
+                { "icons8-delete-48", Content.Load<Texture2D>("icons8-delete-48") }
+            };
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
@@ -51,7 +67,7 @@ namespace Minotaurus
                 Exit();
 
             // TODO: Add your update logic here
-            World.LoadedLevel.Update(gameTime);
+            _currentState.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -63,8 +79,8 @@ namespace Minotaurus
             Window.AllowUserResizing = true;
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null, null, null);
-            _spriteBatch.Draw(_background, new Vector2(0, 0), new Rectangle(0, 0, 384, 240), Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
-            World.LoadedLevel.Draw(_spriteBatch);
+            _spriteBatch.Draw(Textures["back"], new Vector2(0, 0), new Rectangle(0, 0, 384, 240), Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+            _currentState.Draw(_spriteBatch);
             _spriteBatch.End();
 
             _graphics.GraphicsDevice.SetRenderTarget(null);
@@ -101,6 +117,11 @@ namespace Minotaurus
 
                 return dst = new Rectangle(barWidth, 0, presentWidth, Window.ClientBounds.Height);
             }
+        }
+
+        public static void changeState(IState nextState)
+        {
+            _currentState = nextState;
         }
     }
 }

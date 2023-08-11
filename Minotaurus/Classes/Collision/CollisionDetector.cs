@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Minotaurus.Classes.Entities;
 using Minotaurus.Classes.Interfaces;
-using Minotaurus.Classes.Levels;
 using Minotaurus.Classes.Movement;
+using Minotaurus.Classes.States;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,11 +17,11 @@ namespace Minotaurus.Classes.Collision
     {
         List<IGameObject> gameObjects;
         private IEntity self;
-        Physics Physics = new Physics();
+        Physics Physics;
         MovementController movementController = new MovementController();
         public CollisionDetector(IEntity self, Physics physics, MovementController movementController) 
         {
-            gameObjects = World.LoadedLevel.GetGameObjects();
+            
 
             this.Physics = physics;
             this.movementController = movementController;
@@ -31,6 +31,8 @@ namespace Minotaurus.Classes.Collision
 
         public void CheckCollision(Rectangle hitBox, int direction)
         {
+
+            gameObjects = GameState.LoadedLevel.GetGameObjects();
             //Als we hier de vloer niet op null zetten, zal het karakter tijdens het vallen van een 'ledge' een extra jump krijgen.
             //Omdat ik dit een leuek feature vind heb ik het erin gelaten.
 
@@ -65,21 +67,14 @@ namespace Minotaurus.Classes.Collision
                     }
                 }
 
-                if(gameObject is ITrigger trigger)
+                if(gameObject is IDamageable trigger)
                 {
                     if(hitBox.Intersects(trigger.HitBox))
                     {
                         if ((DateTime.Now - trigger.LastTriggerTime).TotalSeconds > trigger.Cooldown)
                         {
-                            Debug.WriteLine($"Hello {trigger.LastTriggerTime} {DateTime.Now} {RuntimeHelpers.GetHashCode(trigger)}");
                             trigger.LastTriggerTime = DateTime.Now;
-
-                            self.Health -= 1;
-
-                            if(self.Health <= 0)
-                            {
-                                self.Health = 0;
-                            }
+                            self.healthManager.InflictDamage(1);
                         }
                     }
                 }

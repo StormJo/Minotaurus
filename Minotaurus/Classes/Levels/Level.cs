@@ -2,16 +2,20 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Minotaurus.Classes.Entities;
+using Minotaurus.Classes.Entities.Static;
 using Minotaurus.Classes.Interfaces;
+using Minotaurus.Classes.States;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 
 namespace Minotaurus.Classes.Levels
 {
-    internal class LevelOne : ILevel
+    internal class Level : ILevel
     {
-        private int[,] levelOneMap = {
+        private int[,] Map = {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -52,35 +56,29 @@ namespace Minotaurus.Classes.Levels
             {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4}
         };
 
-        private Texture2D _minotaurTexture, _LevelOneTile, _LevelOneProps, _heartIcon;
-        private WorldManager _worldWorldManager;
+        private int tileSize = 16;
+
         private Hero heroMino;
-        private List<IGameObject> gameObjects;
-        public LevelOne() 
+        private Enemy enemyTrash;
+
+        public static List<IGameObject> gameObjects;
+        public Level()
         {
-            _worldWorldManager = new WorldManager(levelOneMap);
             gameObjects = new List<IGameObject>();
+
+            LoadLevel(Game1.Textures["tileset"]);
+            LoadLevel(Game1.Textures["props"]);
+
+
+            heroMino = new Hero();
+            gameObjects.Add(heroMino);
+            enemyTrash = new Enemy(Game1.Textures["icons8-delete-48"]);
+            gameObjects.Add(enemyTrash); 
         }
 
         public List<IGameObject> GetGameObjects()
         {
             return gameObjects;
-        }
-        public void Initialize()
-        {
-            _worldWorldManager.CheckTiles(_LevelOneTile);
-            _worldWorldManager.CheckTiles(_LevelOneProps);
-            heroMino = new Hero(_minotaurTexture);
-            gameObjects.Add(heroMino);
-            
-        }
-
-        public void LoadContent(ContentManager content)
-        {
-            _LevelOneTile = content.Load<Texture2D>("tileset");
-            _LevelOneProps = content.Load<Texture2D>("props");
-            _minotaurTexture = content.Load<Texture2D>("spritesheetMinotaur");
-            _heartIcon = content.Load<Texture2D>("HeartIcon");
         }
 
         public void Update(GameTime gameTime)
@@ -92,20 +90,70 @@ namespace Minotaurus.Classes.Levels
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (var gameObject in gameObjects)
-            {
-                gameObject.Draw(spriteBatch);
-            }
 
-            for (int i = 1; i < heroMino.Health + 1; i++)
+            if (heroMino.healthManager.isDead)
             {
-                spriteBatch.Draw(_heartIcon, new Rectangle(10 + i * 90, 10, 90, 90), Color.White);
+                spriteBatch.Draw(Game1.Textures["icons8-delete-48"], new Rectangle(200 + 200, 10, 90, 90), Color.White);
+            }
+            else
+            {
+                foreach (var gameObject in gameObjects)
+                {
+                    gameObject.Draw(spriteBatch);
+                }
+
+                for (int i = 1; i < heroMino.healthManager.CurrentHealth + 1; i++)
+                {
+                    spriteBatch.Draw(Game1.Textures["HeartIcon"], new Rectangle(10 + i * 90, 10, 90, 90), Color.White);
+                }
             }
         }
 
-        public void AddGameObject(IGameObject gameObject)
+
+        public void LoadLevel(Texture2D texture)
         {
-            gameObjects.Add(gameObject);
+            for (int i = 0; i < Map.GetLength(0); i++)
+            {
+                for (int j = 0; j < Map.GetLength(1); j++)
+                {
+                    if (texture.Name == "tileset")
+                    {
+                        if (Map[i, j] > 0 && Map[i, j] <= 3)
+                        {
+                            gameObjects.Add(new GrassTile(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
+                        if (Map[i, j] > 3 && Map[i, j] <= 6)
+                        {
+                            gameObjects.Add(new GroundTile(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
+                        if (Map[i, j] > 6 && Map[i, j] <= 9)
+                        {
+                            gameObjects.Add(new FloatingIslandGrass(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
+                        if (Map[i, j] > 9 && Map[i, j] <= 13)
+                        {
+                            gameObjects.Add(new TransitionGroundTile(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
+                        if (Map[i, j] >= 14 && Map[i, j] <= 21)
+                        {
+                            gameObjects.Add(new CollidingProp(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
+                    }
+                    if (texture.Name == "props")
+                    {
+                        if (Map[i, j] >= 22 && Map[i, j] <= 22)
+                        {
+                            gameObjects.Add(new NoCollidingProp(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
+                        if (Map[i, j] >= 23 && Map[i, j] <= 23)
+                        {
+                            gameObjects.Add(new DamgeAbleProp(j * tileSize, i * tileSize, texture, Map[i, j]));
+                        }
+                    }
+                }
+            }
+
+
         }
     }
 }

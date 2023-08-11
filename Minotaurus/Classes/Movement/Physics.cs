@@ -34,7 +34,6 @@ namespace Minotaurus.Classes.Movement
                 velocity.X = 0f;
             }
         }
-
         public void ImpulseY(float jumpForce)
         {
             velocity.Y = jumpForce;

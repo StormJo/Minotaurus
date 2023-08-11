@@ -54,7 +54,7 @@ namespace Minotaurus.Classes.Movement
                     State = State.Walking;
                     _physics.RunSpeed(1100f, 1, 1f,gameTime);
                 }
-
+                //MOVING LEFT
                 if (Keyboard.GetState().IsKeyDown(Keys.Q))
                 {
                     IsLeft = true;

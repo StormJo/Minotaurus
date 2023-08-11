@@ -2,21 +2,21 @@
 using Minotaurus.Classes.Animations;
 using Minotaurus.Classes.Interfaces;
 using Minotaurus.Classes.Movement;
+using Minotaurus;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Minotaurus.Classes.Collision;
-using System;
-using System.Diagnostics;
 
 namespace Minotaurus.Classes.Entities
 {
     public class Hero : IGameObject, ICollide, IEntity
     {
-        private Texture2D texture;
+        private Texture2D texture = Game1.Textures["spritesheetMinotaur"];
         public Rectangle currentFrame;
         public Vector2 position;
+
+
         public Rectangle HitBox { get; set; }
-        public int Health { get; set; } = 3;
+        public HealthManager healthManager { get; }
 
         public Physics _physics; 
         MovementController moveController;
@@ -39,12 +39,12 @@ namespace Minotaurus.Classes.Entities
 
         #endregion
 
-        public Hero(Texture2D texture)
+        public Hero()
         {
             moveController = new MovementController();
             _physics = new Physics();
             collisionDetector = new CollisionDetector(this, _physics, moveController);
-            this.texture = texture;
+            healthManager = new HealthManager(3);
             #region-Animations
             idleAnimationRight = new Animation(idleFPS);
             idleAnimationLeft = new Animation(idleFPS);
@@ -159,12 +159,12 @@ namespace Minotaurus.Classes.Entities
                 currentFrame = animation.CurrentFrame.SourceRectangle;
             }
             #endregion
-            Die();
             _physics.ApplyGravity(gameTime);
             UpdateCollision(gameTime);
             
             position = _physics.Update(position, gameTime);
             HitBox = new Rectangle((int)position.X, (int)position.Y, currentFrame.Width, currentFrame.Height);
+
 
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -179,16 +179,6 @@ namespace Minotaurus.Classes.Entities
             collisionDetector.CheckCollision(new Rectangle((int)newPosition.X, (int)position.Y, currentFrame.Width, currentFrame.Height), 1); //Check horizontal
             collisionDetector.CheckCollision(new Rectangle((int)position.X, (int)newPosition.Y, currentFrame.Width, currentFrame.Height), 0); //Check vertical
         }
-
-        private void Die()
-        {
-            if(Health == 0)
-            {
-                position = new Vector2(0,0);
-                Health = 3;
-            }
-        }
-
 
     }
 }

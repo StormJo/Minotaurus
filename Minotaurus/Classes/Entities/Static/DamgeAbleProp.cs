@@ -5,7 +5,7 @@ using System;
 
 namespace Minotaurus.Classes.Entities.Static
 {
-    internal class Trigger : Tile, ITrigger
+    internal class DamgeAbleProp : Tile, IDamageable
     {
         public Rectangle HitBox { get; }
 
@@ -13,7 +13,7 @@ namespace Minotaurus.Classes.Entities.Static
 
         public float Cooldown => 2;
 
-        public Trigger(int X, int Y, Texture2D texture, int sortProp) : base(X, Y, texture)
+        public DamgeAbleProp(int X, int Y, Texture2D texture, int sortProp) : base(X, Y, texture)
         {
             if (sortProp == 23)// Spikes
             {

@@ -25,6 +25,13 @@
 /processorParam:TextureFormat=Color
 /build:back.png
 
+#begin Freshman.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Freshman.spritefont
+
 #begin HeartIcon.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -36,6 +43,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:HeartIcon.png
+
+#begin icons8-delete-48.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:icons8-delete-48.png
 
 #begin props.png
 /importer:TextureImporter
