@@ -13,13 +13,13 @@ namespace Minotaurus
     public class Game1 : Game
     {
         public static Dictionary<string, Texture2D> Textures;
-        public SpriteFont font;
+        public static SpriteFont Arial;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Texture2D _background;
         private static IState _currentState;
         private IState _nextState;
+
 
         private static RenderTarget2D _renderTarget;
         private const int _screenHeight = 1440;
@@ -39,13 +39,11 @@ namespace Minotaurus
             base.Initialize();
             PresentationParameters pp = _graphics.GraphicsDevice.PresentationParameters;
             _renderTarget = new RenderTarget2D(_graphics.GraphicsDevice, 800, 608, false, SurfaceFormat.Color, DepthFormat.None, pp.MultiSampleCount, RenderTargetUsage.DiscardContents);
-            _currentState = new GameState();
+            _currentState = new MenuState();
         }
 
         protected override void LoadContent()
         {
-            font = Content.Load<SpriteFont>("Freshman");
-
             Textures = new Dictionary<string, Texture2D>
             {
                 { "back", Content.Load<Texture2D>("back") },
@@ -55,6 +53,8 @@ namespace Minotaurus
                 { "HeartIcon", Content.Load<Texture2D>("HeartIcon") },
                 { "icons8-delete-48", Content.Load<Texture2D>("icons8-delete-48") }
             };
+
+            Arial = Content.Load<SpriteFont>("Arial16");
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
