@@ -14,9 +14,10 @@ namespace Minotaurus.Classes.States
     {
         public static ILevel LoadedLevel { get; set; }
 
-        public GameState() 
+        public GameState(int level) 
         {
-            LoadedLevel = new Level();
+            LoadedLevel = new Level(level);
+            
         }
         public void Update(GameTime gameTime)
         {

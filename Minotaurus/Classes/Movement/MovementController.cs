@@ -10,13 +10,13 @@ namespace Minotaurus.Classes.Movement
         public State State { get; set; }
         public Vector2 NextFramePosition { get; set; }
 
-        public IGameObject Floor { get; set; }
+        public bool isFloored { get; set; }
         public bool IsLeft { get; set; } = false;
         public bool IsRight { get; set; } = true;
 
         public void update(Physics _physics, GameTime gameTime)
         {
-            if (Floor == null)
+            if (!isFloored)
             {
                     if (Keyboard.GetState().IsKeyDown(Keys.D))
                     {
@@ -40,10 +40,10 @@ namespace Minotaurus.Classes.Movement
                 State = State.Idle;
 
                 //JUMPING
-                if (Keyboard.GetState().IsKeyDown(Keys.Space) && Floor != null)
+                if (Keyboard.GetState().IsKeyDown(Keys.Space) && isFloored)
                 {
                     _physics.ImpulseY(-400f);
-                    Floor = null;
+                    isFloored = false;
                     State = State.Jumping;
                 }
                 //MOVING RIGHT

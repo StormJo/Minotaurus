@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Minotaurus.Classes.Entities;
+using Minotaurus.Classes.Entities.Static;
 using Minotaurus.Classes.Interfaces;
 using Minotaurus.Classes.Movement;
 using Minotaurus.Classes.States;
@@ -13,30 +14,29 @@ using System.Threading.Tasks;
 
 namespace Minotaurus.Classes.Collision
 {
-    internal class CollisionDetector
+    internal class CollisionManager
     {
         List<IGameObject> gameObjects;
-        private IEntity self;
+        private IPlayer self;
         Physics Physics;
         MovementController movementController = new MovementController();
-        public CollisionDetector(IEntity self, Physics physics, MovementController movementController) 
+        public CollisionManager(IPlayer self, Physics physics, MovementController movementController) 
         {
-            
-
             this.Physics = physics;
             this.movementController = movementController;
-
             this.self = self;
         }
 
-        public void CheckCollision(Rectangle hitBox, int direction)
+        public void CheckCollision(Rectangle hitBox, EDirection direction)
         {
 
             gameObjects = GameState.LoadedLevel.GetGameObjects();
+            List<IGameObject> objectsToRemove = new List<IGameObject>();
+
             //Als we hier de vloer niet op null zetten, zal het karakter tijdens het vallen van een 'ledge' een extra jump krijgen.
             //Omdat ik dit een leuek feature vind heb ik het erin gelaten.
 
-            //movementController.Floor = null;
+            //movementController.isFloored = false;
 
             foreach (var gameObject in gameObjects)
             {
@@ -50,34 +50,37 @@ namespace Minotaurus.Classes.Collision
                 {
                     if (hitBox.Intersects(collide.HitBox))
                     {
-                        if (direction == 1)
-                        {
-                            if (Physics.velocity.X != 0)
-                                Physics.velocity.X = 0;
-                        }
-                        else
-                        {
-                            if(Physics.velocity.Y > 0)
-                            {
-                                movementController.Floor = gameObject;
-                            }
-                            if (Physics.velocity.Y != 0)
-                                Physics.velocity.Y = 0;
-                        }
+                        Physics.checkWalled(direction, movementController); //Todo check direction before doing methods
+                        Physics.checkCeiling(direction, movementController); 
                     }
                 }
 
-                if(gameObject is IDamageable trigger)
+                if(gameObject is IDealDamage damageAble)
                 {
-                    if(hitBox.Intersects(trigger.HitBox))
+                    if(hitBox.Intersects(damageAble.HitBox))
                     {
-                        if ((DateTime.Now - trigger.LastTriggerTime).TotalSeconds > trigger.Cooldown)
+                        if ((DateTime.Now - damageAble.LastTriggerTime).TotalSeconds > damageAble.Cooldown)
                         {
-                            trigger.LastTriggerTime = DateTime.Now;
+                            damageAble.LastTriggerTime = DateTime.Now;
                             self.healthManager.InflictDamage(1);
                         }
                     }
                 }
+
+                if (gameObject is IPickUp pickup)
+                {
+                    if (hitBox.Intersects(pickup.HitBox))
+                    {
+                        pickup.Action(self);
+                        objectsToRemove.Add(gameObject);
+                    }
+                }
+            }
+
+            foreach (var objToRemove in objectsToRemove)
+            {
+                
+                gameObjects.Remove(objToRemove);
             }
         }
     }

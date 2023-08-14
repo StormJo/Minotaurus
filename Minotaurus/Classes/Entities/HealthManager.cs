@@ -26,8 +26,7 @@ namespace Minotaurus.Classes.Entities
 
             if (CurrentHealth <= 0)
             {
-                CurrentHealth = 0;
-                Game1.changeState(new GameOverState());
+                isDead = true;
             }
         }
 

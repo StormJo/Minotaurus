@@ -19,7 +19,7 @@ namespace Minotaurus
         private SpriteBatch _spriteBatch;
         private static IState _currentState;
         private IState _nextState;
-
+        private static Game self;
 
         private static RenderTarget2D _renderTarget;
         private const int _screenHeight = 1440;
@@ -30,6 +30,7 @@ namespace Minotaurus
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            self = this;
         }
         
         protected override void Initialize()
@@ -51,6 +52,8 @@ namespace Minotaurus
                 { "props", Content.Load<Texture2D>("props") },
                 { "spritesheetMinotaur", Content.Load<Texture2D>("spritesheetMinotaur") },
                 { "HeartIcon", Content.Load<Texture2D>("HeartIcon") },
+                { "GameOver", Content.Load<Texture2D>("GameOver") },
+                { "Coin", Content.Load<Texture2D>("Coin") },
                 { "icons8-delete-48", Content.Load<Texture2D>("icons8-delete-48") }
             };
 
@@ -119,9 +122,13 @@ namespace Minotaurus
             }
         }
 
-        public static void changeState(IState nextState)
+        public static void ChangeState(IState nextState)
         {
             _currentState = nextState;
+        }
+        public static void Quit()
+        {
+            self.Exit();
         }
     }
 }

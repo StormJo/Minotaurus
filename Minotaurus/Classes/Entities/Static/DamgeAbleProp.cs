@@ -5,7 +5,7 @@ using System;
 
 namespace Minotaurus.Classes.Entities.Static
 {
-    internal class DamgeAbleProp : Tile, IDamageable
+    internal class DamgeAbleProp : Tile, IDealDamage
     {
         public Rectangle HitBox { get; }
 

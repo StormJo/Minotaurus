@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Minotaurus.Classes.Entities;
+using Minotaurus.Classes.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +43,26 @@ namespace Minotaurus.Classes.Movement
         public void ApplyGravity(GameTime gametime)
         {
             velocity.Y += gravity * (float)gametime.ElapsedGameTime.TotalSeconds;
+        }
+        public void checkWalled(EDirection direction, MovementController movementController)
+        {
+            if (direction == EDirection.HORIZONTAL)
+            {
+                if (velocity.X != 0)
+                    velocity.X = 0;
+            }
+        }
+        public void checkCeiling(EDirection direction, MovementController movementController)
+        {
+           if( direction == EDirection.VERTICAL) 
+            {
+                if (velocity.Y > 0)
+                {
+                    movementController.isFloored = true;
+                }
+                if (velocity.Y != 0)
+                    velocity.Y = 0;
+            }
         }
         public Vector2 Update(Vector2 position, GameTime gametime)
         { 

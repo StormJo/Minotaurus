@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace Minotaurus.Classes.Entities
 {
-    internal class Enemy : IGameObject, IDamageable
+    internal class Enemy : IGameObject, IDealDamage
     {
         private Texture2D texture;
         private Vector2 position = new Vector2(8 * 16, 8 * 16);

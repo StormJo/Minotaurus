@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Minotaurus.Classes.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,22 @@ namespace Minotaurus.Classes.States
 {
     internal class GameOverState : IState
     {
+        private float elapsedTime = 0f;
+        private const float TimeToChangeState = 5f;
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Game1.Textures["icons8-delete-48"], new Rectangle(200 + 200, 10, 90, 90), Color.White);
+            spriteBatch.Draw(Game1.Textures["GameOver"], new Vector2(215,200) , new Rectangle(80,128,351,207), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 
         public void Update(GameTime gameTime)
         {
-            // Implementeer hier logica voor het afhandelen van invoer of andere updates voor het gameover-scherm
+            elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (elapsedTime >= TimeToChangeState)
+            {
+                Game1.ChangeState(new MenuState());
+            }
         }
     }
 

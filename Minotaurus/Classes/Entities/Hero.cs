@@ -8,7 +8,8 @@ using Minotaurus.Classes.Collision;
 
 namespace Minotaurus.Classes.Entities
 {
-    public class Hero : IGameObject, ICollide, IEntity
+    public enum EDirection { VERTICAL , HORIZONTAL};
+    public class Hero :  IPlayer
     {
         private Texture2D texture = Game1.Textures["spritesheetMinotaur"];
         public Rectangle currentFrame;
@@ -17,10 +18,11 @@ namespace Minotaurus.Classes.Entities
 
         public Rectangle HitBox { get; set; }
         public HealthManager healthManager { get; }
+        public PointManager pointManager { get; }
+        public Physics physics { get; }
 
-        public Physics _physics; 
         MovementController moveController;
-        CollisionDetector collisionDetector;
+        CollisionManager collisionDetector;
         #region-Animations
         Animation idleAnimationRight;
         Animation idleAnimationLeft;
@@ -39,12 +41,14 @@ namespace Minotaurus.Classes.Entities
 
         #endregion
 
-        public Hero()
+        public Hero(Vector2 startPosition)
         {
+            position = startPosition;
             moveController = new MovementController();
-            _physics = new Physics();
-            collisionDetector = new CollisionDetector(this, _physics, moveController);
+            physics = new Physics();
+            collisionDetector = new CollisionManager(this, physics, moveController);
             healthManager = new HealthManager(3);
+            pointManager = new PointManager();
             #region-Animations
             idleAnimationRight = new Animation(idleFPS);
             idleAnimationLeft = new Animation(idleFPS);
@@ -101,17 +105,17 @@ namespace Minotaurus.Classes.Entities
         }
         public void Update(GameTime gameTime)
         {
-            moveController.update(_physics, gameTime);
+            moveController.update(physics, gameTime);
             #region-AnimationRegulator
             Animation animation = null;
             if (moveController.State == State.Idle)
             {
-                if (_physics.velocity.X > 0)
+                if (physics.velocity.X > 0)
                 {
                     moveController.IsRight = true;
                     animation = idleAnimationRight;
                 }
-                else if (_physics.velocity.X < 0)
+                else if (physics.velocity.X < 0)
                 {
                     animation = idleAnimationLeft;
                     moveController.IsRight = false;
@@ -131,7 +135,7 @@ namespace Minotaurus.Classes.Entities
 
             if (moveController.State == State.Walking)
             {
-                if (_physics.velocity.X > 0)
+                if (physics.velocity.X > 0)
                 {
                     animation = walkRightAnimation;
                 }
@@ -159,10 +163,10 @@ namespace Minotaurus.Classes.Entities
                 currentFrame = animation.CurrentFrame.SourceRectangle;
             }
             #endregion
-            _physics.ApplyGravity(gameTime);
+            physics.ApplyGravity(gameTime);
             UpdateCollision(gameTime);
             
-            position = _physics.Update(position, gameTime);
+            position = physics.Update(position, gameTime);
             HitBox = new Rectangle((int)position.X, (int)position.Y, currentFrame.Width, currentFrame.Height);
 
 
@@ -174,11 +178,13 @@ namespace Minotaurus.Classes.Entities
 
         private void UpdateCollision(GameTime gameTime)
         {
-            var newPosition = _physics.Update(position, gameTime);
+            var newPosition = physics.Update(position, gameTime);
 
-            collisionDetector.CheckCollision(new Rectangle((int)newPosition.X, (int)position.Y, currentFrame.Width, currentFrame.Height), 1); //Check horizontal
-            collisionDetector.CheckCollision(new Rectangle((int)position.X, (int)newPosition.Y, currentFrame.Width, currentFrame.Height), 0); //Check vertical
+            collisionDetector.CheckCollision(new Rectangle((int)newPosition.X, (int)position.Y, currentFrame.Width, currentFrame.Height), EDirection.HORIZONTAL); //Check horizontal
+            collisionDetector.CheckCollision(new Rectangle((int)position.X, (int)newPosition.Y, currentFrame.Width, currentFrame.Height), EDirection.VERTICAL); //Check vertical
         }
+
+
 
     }
 }

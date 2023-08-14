@@ -18,10 +18,10 @@ namespace Minotaurus.Classes.Entities
             this.enemyTexture = enemyTexture;
         }
 
-        public Hero CreateHero()
-        {
-            return new Hero();
-        }
+        //public Hero CreateHero()
+        //{
+            //return new Hero();
+        //}
 
         public Enemy CreateEnemy()
         {

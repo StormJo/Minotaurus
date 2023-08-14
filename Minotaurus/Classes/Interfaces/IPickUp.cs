@@ -9,6 +9,7 @@ namespace Minotaurus.Classes.Interfaces
 {
     internal interface IPickUp
     {
-        public Rectangle hitBox { get; set; }
+        public Rectangle HitBox { get; }
+        void Action(IPlayer self) { }
     }
 }

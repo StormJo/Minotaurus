@@ -3,7 +3,7 @@ using System;
 
 namespace Minotaurus.Classes.Interfaces
 {
-    internal interface IDamageable
+    internal interface IDealDamage
     {
         public Rectangle HitBox { get; }
         // This assumes that only 1 player may exist at one time

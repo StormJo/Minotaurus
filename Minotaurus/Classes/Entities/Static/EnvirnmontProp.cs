@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Minotaurus.Classes.Entities.Static
 {
-    public class CollidingProp : Tile, ICollide
+    public class EnvirnmontProp : Tile, ICollide
     {
         public Rectangle HitBox { get; }
-        public CollidingProp(int X, int Y, Texture2D texture, int sortProp) : base(X, Y, texture)
+        public EnvirnmontProp(int X, int Y, Texture2D texture, int sortProp) : base(X, Y, texture)
         {
             if (sortProp == 14) //Little BOX
             {

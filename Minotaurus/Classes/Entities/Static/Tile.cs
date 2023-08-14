@@ -7,7 +7,7 @@ namespace Minotaurus.Classes.Entities.Static
 {
     public class Tile : IGameObject
     {
-        private Texture2D texture;
+        public Texture2D texture;
 
         public Vector2 position;
         public Rectangle currentFrame;
@@ -17,11 +17,11 @@ namespace Minotaurus.Classes.Entities.Static
             this.texture = texture;
             position = new Vector2(X, Y);
         }
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             //empty
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, position, currentFrame, Color.White);
         }
