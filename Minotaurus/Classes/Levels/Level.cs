@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Minotaurus.Classes.Entities;
+using Minotaurus.Classes.Entities.Characters;
 using Minotaurus.Classes.Entities.Static;
 using Minotaurus.Classes.Interfaces;
 using Minotaurus.Classes.States;
@@ -100,7 +100,8 @@ namespace Minotaurus.Classes.Levels
         private int[,] Map;
 
         private Hero heroMino;
-        private Enemy enemyTrash;
+        private Slime enemyTrash;
+        private GhostEnemy enemyGhost;
 
         public static List<IGameObject> gameObjects;
         public static List<IPlayer> Entities;
@@ -119,17 +120,18 @@ namespace Minotaurus.Classes.Levels
             gameObjects = new List<IGameObject>();
             Entities = new List<IPlayer>();
 
+            //Adding Entities
+            heroMino = new Hero(new Vector2(0, 0));
+            Entities.Add(heroMino);
+
             //Loading Textures + Adding GameObjects
-            gameObjects.Add(new Enemy(Game1.Textures["icons8-delete-48"]));
+            gameObjects.Add(new Slime(Game1.Textures["slime_jump"]));
+            gameObjects.Add(new GhostEnemy(heroMino, Game1.Textures["GhostSprite"]));
             LoadLevel(Game1.Textures["tileset"]);
             LoadLevel(Game1.Textures["props"]);
             LoadLevel(Game1.Textures["Coin"]);
             LoadLevel(Game1.Textures["HeartIcon"]);
 
-            //Adding Entities
-            heroMino = new Hero(new Vector2(0,0));
-            Entities.Add(heroMino);
-            
         }
 
         public List<IGameObject> GetGameObjects()

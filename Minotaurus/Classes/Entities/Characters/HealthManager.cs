@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Minotaurus.Classes.Entities
+namespace Minotaurus.Classes.Entities.Characters
 {
     public class HealthManager
     {

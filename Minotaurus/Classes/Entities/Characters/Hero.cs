@@ -2,14 +2,13 @@
 using Minotaurus.Classes.Animations;
 using Minotaurus.Classes.Interfaces;
 using Minotaurus.Classes.Movement;
-using Minotaurus;
 using Microsoft.Xna.Framework;
 using Minotaurus.Classes.Collision;
 
-namespace Minotaurus.Classes.Entities
+namespace Minotaurus.Classes.Entities.Characters
 {
-    public enum EDirection { VERTICAL , HORIZONTAL};
-    public class Hero :  IPlayer
+    public enum EDirection { VERTICAL, HORIZONTAL };
+    public class Hero : IPlayer
     {
         private Texture2D texture = Game1.Textures["spritesheetMinotaur"];
         public Rectangle currentFrame;
@@ -37,7 +36,7 @@ namespace Minotaurus.Classes.Entities
         int attackFPS = 15;
         int jumpFPS = 1;
 
-       
+
 
         #endregion
 
@@ -165,7 +164,7 @@ namespace Minotaurus.Classes.Entities
             #endregion
             physics.ApplyGravity(gameTime);
             UpdateCollision(gameTime);
-            
+
             position = physics.Update(position, gameTime);
             HitBox = new Rectangle((int)position.X, (int)position.Y, currentFrame.Width, currentFrame.Height);
 
@@ -184,7 +183,9 @@ namespace Minotaurus.Classes.Entities
             collisionDetector.CheckCollision(new Rectangle((int)position.X, (int)newPosition.Y, currentFrame.Width, currentFrame.Height), EDirection.VERTICAL); //Check vertical
         }
 
-
-
+        public Vector2 getLocation()
+        {
+            return position;
+        }
     }
 }

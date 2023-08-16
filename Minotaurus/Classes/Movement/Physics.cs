@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Minotaurus.Classes.Entities;
+using Minotaurus.Classes.Entities.Characters;
 using Minotaurus.Classes.Interfaces;
 using System;
 using System.Collections.Generic;

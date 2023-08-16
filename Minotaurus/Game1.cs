@@ -54,7 +54,8 @@ namespace Minotaurus
                 { "HeartIcon", Content.Load<Texture2D>("HeartIcon") },
                 { "GameOver", Content.Load<Texture2D>("GameOver") },
                 { "Coin", Content.Load<Texture2D>("Coin") },
-                { "icons8-delete-48", Content.Load<Texture2D>("icons8-delete-48") }
+                { "GhostSprite", Content.Load<Texture2D>("GhostSprite") },
+                { "slime_jump", Content.Load<Texture2D>("slime_jump") }
             };
 
             Arial = Content.Load<SpriteFont>("Arial16");

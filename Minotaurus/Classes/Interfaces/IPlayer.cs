@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Minotaurus.Classes.Entities;
+using Minotaurus.Classes.Entities.Characters;
 using Minotaurus.Classes.Movement;
 
 namespace Minotaurus.Classes.Interfaces

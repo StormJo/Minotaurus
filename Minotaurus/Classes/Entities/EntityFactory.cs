@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using Minotaurus.Classes.Entities.Characters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,9 @@ namespace Minotaurus.Classes.Entities
             //return new Hero();
         //}
 
-        public Enemy CreateEnemy()
+        public Slime CreateEnemy()
         {
-            return new Enemy(enemyTexture);
+            return new Slime(enemyTexture);
         }
     }
 }
