@@ -9,10 +9,6 @@ namespace Minotaurus.Classes.Entities.Static
     {
         public Rectangle HitBox { get; }
 
-        public DateTime LastTriggerTime { get; set; } = DateTime.MinValue;
-
-        public float Cooldown => 2;
-
         public DamgeAbleProp(int X, int Y, Texture2D texture, int sortProp) : base(X, Y, texture)
         {
             if (sortProp == 23)// Spikes

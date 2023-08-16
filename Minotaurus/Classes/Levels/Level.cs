@@ -100,8 +100,6 @@ namespace Minotaurus.Classes.Levels
         private int[,] Map;
 
         private Hero heroMino;
-        private Slime enemyTrash;
-        private GhostEnemy enemyGhost;
 
         public static List<IGameObject> gameObjects;
         public static List<IPlayer> Entities;

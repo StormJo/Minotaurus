@@ -12,6 +12,10 @@ namespace Minotaurus.Classes.Entities.Characters
         public bool isDead { get; set; }
         public int MaxHealth { get; set; }
         public int CurrentHealth { get; set; }
+        public bool invurnerable { get; set; }
+        private float _invulnerabilityTimer = 0;
+
+        private const float _invulnerabilityDuration = 2;
 
         public HealthManager(int maxHealth)
         {
@@ -20,14 +24,36 @@ namespace Minotaurus.Classes.Entities.Characters
             CurrentHealth = maxHealth;
         }
 
+        public void Update(float deltaTime)
+        {
+            if (invurnerable)
+            {
+                _invulnerabilityTimer -= deltaTime;
+
+                if (_invulnerabilityTimer <= 0)
+                {
+                    invurnerable = false;
+                    _invulnerabilityTimer = 0;
+                }
+            }
+        }
         public void InflictDamage(int damageAmount)
         {
-            CurrentHealth -= damageAmount;
-
-            if (CurrentHealth <= 0)
+            if(!invurnerable)
             {
-                isDead = true;
+                CurrentHealth -= damageAmount;
+
+                if (CurrentHealth <= 0)
+                {
+                    isDead = true;
+                }
+                else
+                {
+                    invurnerable = true;
+                    _invulnerabilityTimer = _invulnerabilityDuration;
+                }
             }
+            
         }
 
         public void ResetHealth()

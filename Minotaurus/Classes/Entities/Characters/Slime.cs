@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Minotaurus.Classes.Animations;
 using Minotaurus.Classes.Interfaces;
+using Minotaurus.Classes.Movement;
 using System;
 using System.Diagnostics;
 
@@ -11,23 +12,18 @@ namespace Minotaurus.Classes.Entities.Characters
     {
         private Texture2D texture;
         public Rectangle currentFrame;
-        private Vector2 position = new Vector2(28 * 16, 34 * 16);
-        private Rectangle spriteFrame = new Rectangle(0, 0, 48, 48);
-
-        private int movementCounter = 0;
-        private int movementDirection = 1;
-        private int maxMovement = 120; // Hier kun je de bewegingslimiet aanpassen
+        private Vector2 _position = new Vector2(27 * 16, 34 * 16); //Starting Position
 
         public Rectangle HitBox { get; set; }
         public DateTime LastTriggerTime { get; set; } = DateTime.MinValue;
+        public PatrollingMovementController patrollingMovementController;
 
         public float Cooldown => 2;
         Animation idleAnimation;
         public Slime(Texture2D texture)
         {
             this.texture = texture;
-            HitBox = new Rectangle(8 * 16, 8 * 16, 48, 48);
-
+            patrollingMovementController = new PatrollingMovementController(100);
             #region-Animations
             idleAnimation = new Animation(10);
             //IdleAnimationRight
@@ -47,29 +43,14 @@ namespace Minotaurus.Classes.Entities.Characters
 
         public void Update(GameTime gameTime)
         {
-
-            //Animations
-
             idleAnimation.FrameCheck(gameTime);
             currentFrame = idleAnimation.CurrentFrame.SourceRectangle;
-
-            movementCounter += movementDirection;
-            position.X += movementDirection;
-
-            Debug.WriteLine(movementCounter);
-
-            if (movementCounter == 0)
-            {
-                movementDirection = 1;
-            }
-            else if (movementCounter == maxMovement)
-            {
-                movementDirection = -1;
-            }
+            HitBox = new Rectangle((int)_position.X, (int)_position.Y, (int)(currentFrame.Width * .3f), (int)(currentFrame.Height * .3f));
+            _position = patrollingMovementController.updatePosition(_position);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2((int)position.X, (int)position.Y), currentFrame, Color.White);
+            spriteBatch.Draw(texture, new Vector2((int)_position.X, (int)_position.Y), currentFrame, Color.White);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Minotaurus.Classes.Entities.Characters
         private Texture2D texture = Game1.Textures["spritesheetMinotaur"];
         public Rectangle currentFrame;
         public Vector2 position;
+        private Color _spriteColor;
 
 
         public Rectangle HitBox { get; set; }
@@ -43,6 +44,7 @@ namespace Minotaurus.Classes.Entities.Characters
         public Hero(Vector2 startPosition)
         {
             position = startPosition;
+            _spriteColor = Color.White;
             moveController = new MovementController();
             physics = new Physics();
             collisionDetector = new CollisionManager(this, physics, moveController);
@@ -105,6 +107,7 @@ namespace Minotaurus.Classes.Entities.Characters
         public void Update(GameTime gameTime)
         {
             moveController.update(physics, gameTime);
+            healthManager.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             #region-AnimationRegulator
             Animation animation = null;
             if (moveController.State == State.Idle)
@@ -167,12 +170,22 @@ namespace Minotaurus.Classes.Entities.Characters
 
             position = physics.Update(position, gameTime);
             HitBox = new Rectangle((int)position.X, (int)position.Y, currentFrame.Width, currentFrame.Height);
-
-
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, currentFrame, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            if (healthManager.invurnerable)
+            {
+                if(_spriteColor == Color.Red) 
+                { 
+                    _spriteColor = Color.White;
+                }
+                else
+                {
+                    _spriteColor = Color.Red;
+                }
+            }
+
+            spriteBatch.Draw(texture, position, currentFrame, _spriteColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 
         private void UpdateCollision(GameTime gameTime)

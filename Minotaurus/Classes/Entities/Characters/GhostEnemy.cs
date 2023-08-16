@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Minotaurus.Classes.Animations;
 using Minotaurus.Classes.Interfaces;
+using Minotaurus.Classes.Movement;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,10 +19,11 @@ namespace Minotaurus.Classes.Entities.Characters
 
         private Texture2D _texture;
         private Vector2 _position = new Vector2(500, 300); //StartingtPosition
-        private Vector2 _locationPlayer;
 
         public Rectangle HitBox { get; set; }
         public DateTime LastTriggerTime { get; set; } = DateTime.MinValue;
+
+        public ChasingMovementController chaseMovementController;
 
         public float Cooldown => 2;
         Animation idleAnimation;
@@ -30,6 +32,7 @@ namespace Minotaurus.Classes.Entities.Characters
         {
             this.hero = hero;
             _texture = texture;
+            chaseMovementController = new ChasingMovementController();
             #region-Animations
             idleAnimation = new Animation(10);
             //IdleAnimationRight
@@ -44,21 +47,10 @@ namespace Minotaurus.Classes.Entities.Characters
 
         public void Update(GameTime gameTime)
         {
-            //Animations
-
             idleAnimation.FrameCheck(gameTime);
             currentFrame = idleAnimation.CurrentFrame.SourceRectangle;
-
-            //Movement
-
-            _locationPlayer = hero.getLocation();
-
-            Vector2 direction = Vector2.Normalize(_locationPlayer - _position);
-
-            _position += direction;
-
+            _position = chaseMovementController.updatePosition(_position, hero);
             HitBox = new Rectangle((int)_position.X, (int)_position.Y, (int)(currentFrame.Width * .3f), (int)(currentFrame.Height * .3f));
-
         }
         public void Draw(SpriteBatch spriteBatch)
         {
