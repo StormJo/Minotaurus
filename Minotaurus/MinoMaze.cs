@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Minotaurus.Classes.Entities;
@@ -14,6 +16,8 @@ namespace Minotaurus
     public class MinoMaze : Game
     {
         public static Dictionary<string, Texture2D> Textures;
+        public static Dictionary<string, SoundEffect> SoundEffects;
+
         public static SpriteFont Arial;
 
         private GraphicsDeviceManager _graphics;
@@ -58,6 +62,15 @@ namespace Minotaurus
                 { "GhostSprite", Content.Load<Texture2D>("GhostSprite") },
                 { "Victory", Content.Load<Texture2D>("Victory") },
                 { "slime_jump", Content.Load<Texture2D>("slime_jump") }
+            };
+
+            SoundEffects = new Dictionary<string, SoundEffect>
+            {
+                { "Dead", Content.Load<SoundEffect>("Dead") },
+                { "PickUpCoin", Content.Load<SoundEffect>("PickUpCoin") },
+                { "PickUpHP", Content.Load<SoundEffect>("PickUpHP") },
+                { "Victory", Content.Load<SoundEffect>("VictorySound") },
+                { "Damage", Content.Load<SoundEffect>("Damage") },
             };
 
             Arial = Content.Load<SpriteFont>("Arial16");

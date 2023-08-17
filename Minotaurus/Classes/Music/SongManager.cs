@@ -45,7 +45,7 @@ namespace Minotaurus.Classes.Music
         {
             if (songs.Count == 0)
                 return;
-
+            MediaPlayer.Volume = 0.5f;
             MediaPlayer.IsRepeating = true;
 
             foreach (var song in songs.Values)

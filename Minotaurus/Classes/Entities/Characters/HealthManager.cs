@@ -45,10 +45,12 @@ namespace Minotaurus.Classes.Entities.Characters
 
                 if (CurrentHealth <= 0)
                 {
+                    MinoMaze.SoundEffects["Dead"].Play();
                     isDead = true;
                 }
                 else
                 {
+                    MinoMaze.SoundEffects["Damage"].Play();
                     invurnerable = true;
                     _invulnerabilityTimer = _invulnerabilityDuration;
                 }
@@ -58,6 +60,7 @@ namespace Minotaurus.Classes.Entities.Characters
 
         public void AddHealth(int healthAmount)
         {
+            MinoMaze.SoundEffects["PickUpHP"].Play();
             CurrentHealth++;
         }
 

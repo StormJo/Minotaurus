@@ -28,10 +28,12 @@ namespace Minotaurus.Classes.Entities.Characters
             {
                 if(_points == _pointsToWin - 1)
                 {
+                    MinoMaze.SoundEffects["Victory"].Play();
                     hasWon = true;
                 }
                 else
                 {
+                    MinoMaze.SoundEffects["PickUpCoin"].Play();
                     _points += amount;
                 }
                 
