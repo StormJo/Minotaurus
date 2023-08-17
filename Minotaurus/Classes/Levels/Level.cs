@@ -35,12 +35,12 @@ namespace Minotaurus.Classes.Levels
             Entities.Add(_heroMino);
 
             //Loading Textures + Adding GameObjects
-            gameObjects.Add(new Slime(Game1.Textures["slime_jump"]));
-            gameObjects.Add(new GhostEnemy(_heroMino, Game1.Textures["GhostSprite"]));
-            LoadLevel(Game1.Textures["tileset"]);
-            LoadLevel(Game1.Textures["props"]);
-            LoadLevel(Game1.Textures["Coin"]);
-            LoadLevel(Game1.Textures["HeartIcon"]);
+            gameObjects.Add(new Slime(MinoMaze.Textures["slime_jump"]));
+            gameObjects.Add(new GhostEnemy(_heroMino, MinoMaze.Textures["GhostSprite"]));
+            LoadLevel(MinoMaze.Textures["tileset"]);
+            LoadLevel(MinoMaze.Textures["props"]);
+            LoadLevel(MinoMaze.Textures["Coin"]);
+            LoadLevel(MinoMaze.Textures["HeartIcon"]);
 
         }
 
@@ -65,7 +65,11 @@ namespace Minotaurus.Classes.Levels
 
             if (_heroMino.healthManager.isDead)
             {
-                Game1.ChangeState(new GameOverState());
+                MinoMaze.ChangeState(new GameOverState());
+            }
+            else if (_heroMino.pointManager.hasWon)
+            {
+                MinoMaze.ChangeState(new VictoryState());
             }
             else
             {
@@ -82,11 +86,11 @@ namespace Minotaurus.Classes.Levels
                 //Drawing HP
                 for (int i = 1; i < _heroMino.healthManager.CurrentHealth + 1; i++)
                 {
-                    spriteBatch.Draw(Game1.Textures["HeartIcon"], new Vector2(10 + (i - 1) * 45, 10), new Rectangle(0, 0, 90, 90), Color.White, 0f, Vector2.Zero, .5f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(MinoMaze.Textures["HeartIcon"], new Vector2(10 + (i - 1) * 45, 10), new Rectangle(0, 0, 90, 90), Color.White, 0f, Vector2.Zero, .5f, SpriteEffects.None, 0f);
                 }
                 //Drawing Points
-                spriteBatch.Draw(Game1.Textures["Coin"], new Vector2(10, 50), new Rectangle(72, 72, 215, 215), Color.White, 0f, Vector2.Zero, .2f, SpriteEffects.None, 0f);
-                spriteBatch.DrawString(Game1.Arial, _heroMino.pointManager.Points.ToString(), new Vector2(70, 50), Color.Black, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
+                spriteBatch.Draw(MinoMaze.Textures["Coin"], new Vector2(10, 50), new Rectangle(72, 72, 215, 215), Color.White, 0f, Vector2.Zero, .2f, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(MinoMaze.Arial, _heroMino.pointManager.Points.ToString(), new Vector2(70, 50), Color.Black, 0, Vector2.Zero, 2f, SpriteEffects.None, 0);
             }
         }
 

@@ -8,23 +8,33 @@ namespace Minotaurus.Classes.Entities.Characters
 {
     public class PointManager
     {
-        private int points;
-
+        private int _points;
+        private int _pointsToWin;
+        public bool hasWon = false;
         public int Points
         {
-            get { return points; }
+            get { return _points; }
         }
 
-        public PointManager()
+        public PointManager(int pointsToWin)
         {
-            points = 0;
+            _points = 0;
+            this._pointsToWin = pointsToWin;
         }
 
         public void AddPoints(int amount)
         {
             if (amount > 0)
             {
-                points += amount;
+                if(_points == _pointsToWin - 1)
+                {
+                    hasWon = true;
+                }
+                else
+                {
+                    _points += amount;
+                }
+                
             }
         }
 
@@ -32,13 +42,13 @@ namespace Minotaurus.Classes.Entities.Characters
         {
             if (amount > 0)
             {
-                points = Math.Max(0, points - amount);
+                _points = Math.Max(0, _points - amount);
             }
         }
 
         public void ResetPoints()
         {
-            points = 0;
+            _points = 0;
         }
     }
 

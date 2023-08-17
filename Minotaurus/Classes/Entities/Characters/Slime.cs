@@ -13,12 +13,9 @@ namespace Minotaurus.Classes.Entities.Characters
         private Texture2D texture;
         public Rectangle currentFrame;
         private Vector2 _position = new Vector2(27 * 16, 34 * 16); //Starting Position
-
         public Rectangle HitBox { get; set; }
-        public DateTime LastTriggerTime { get; set; } = DateTime.MinValue;
         public PatrollingMovementController patrollingMovementController;
 
-        public float Cooldown => 2;
         Animation idleAnimation;
         public Slime(Texture2D texture)
         {
@@ -43,14 +40,21 @@ namespace Minotaurus.Classes.Entities.Characters
 
         public void Update(GameTime gameTime)
         {
+            //Animation
             idleAnimation.FrameCheck(gameTime);
             currentFrame = idleAnimation.CurrentFrame.SourceRectangle;
             HitBox = new Rectangle((int)_position.X, (int)_position.Y, (int)(currentFrame.Width * .3f), (int)(currentFrame.Height * .3f));
+            
+            //Logica
             _position = patrollingMovementController.updatePosition(_position);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, new Vector2((int)_position.X, (int)_position.Y), currentFrame, Color.White);
+        }
+        public void Action(IPlayer self)
+        {
+            self.healthManager.InflictDamage(1);
         }
     }
 }

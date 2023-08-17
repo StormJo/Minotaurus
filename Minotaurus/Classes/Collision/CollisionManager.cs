@@ -59,11 +59,7 @@ namespace Minotaurus.Classes.Collision
                 {
                     if(hitBox.Intersects(damageAble.HitBox))
                     {
-                        if ((DateTime.Now - damageAble.LastTriggerTime).TotalSeconds > damageAble.Cooldown)
-                        {
-                            damageAble.LastTriggerTime = DateTime.Now;
-                            self.healthManager.InflictDamage(1);
-                        }
+                        damageAble.Action(self);
                     }
                 }
 
@@ -79,7 +75,6 @@ namespace Minotaurus.Classes.Collision
 
             foreach (var objToRemove in objectsToRemove)
             {
-                
                 gameObjects.Remove(objToRemove);
             }
         }

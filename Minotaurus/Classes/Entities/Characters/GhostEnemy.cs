@@ -21,11 +21,9 @@ namespace Minotaurus.Classes.Entities.Characters
         private Vector2 _position = new Vector2(500, 300); //StartingtPosition
 
         public Rectangle HitBox { get; set; }
-        public DateTime LastTriggerTime { get; set; } = DateTime.MinValue;
 
         public ChasingMovementController chaseMovementController;
 
-        public float Cooldown => 2;
         Animation idleAnimation;
 
         public GhostEnemy(Hero hero, Texture2D texture)
@@ -47,14 +45,23 @@ namespace Minotaurus.Classes.Entities.Characters
 
         public void Update(GameTime gameTime)
         {
+            //Animation
+
             idleAnimation.FrameCheck(gameTime);
             currentFrame = idleAnimation.CurrentFrame.SourceRectangle;
-            _position = chaseMovementController.updatePosition(_position, hero);
             HitBox = new Rectangle((int)_position.X, (int)_position.Y, (int)(currentFrame.Width * .3f), (int)(currentFrame.Height * .3f));
+
+            //Logica
+
+            _position = chaseMovementController.updatePosition(_position, hero);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_texture, new Vector2((int)_position.X, (int)_position.Y), currentFrame, Color.White, 0f, Vector2.Zero, .3f, SpriteEffects.None, 0f);
+        }
+        public void Action(IPlayer self)
+        {
+            self.healthManager.InflictDamage(1);
         }
     }
 }

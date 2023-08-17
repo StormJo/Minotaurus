@@ -56,6 +56,11 @@ namespace Minotaurus.Classes.Entities.Characters
             
         }
 
+        public void AddHealth(int healthAmount)
+        {
+            CurrentHealth++;
+        }
+
         public void ResetHealth()
         {
             CurrentHealth = MaxHealth;

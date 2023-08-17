@@ -9,10 +9,6 @@ namespace Minotaurus.Classes.Entities.Static
     {
         public Rectangle HitBox { get; }
 
-        public DateTime LastTriggerTime { get; set; } = DateTime.MinValue;
-
-        public float Cooldown => 2;
-
         public DamgeAbleProp(int X, int Y, Texture2D texture, int sortProp) : base(X, Y, texture)
         {
             if (sortProp == 23)// Spikes
@@ -22,6 +18,10 @@ namespace Minotaurus.Classes.Entities.Static
             }
 
             HitBox = new Rectangle((int)position.X, (int)position.Y, currentFrame.Width, currentFrame.Height);
+        }
+        public void Action(IPlayer self)
+        {
+            self.healthManager.InflictDamage(1);
         }
     }
 }

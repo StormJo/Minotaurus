@@ -7,7 +7,6 @@ namespace Minotaurus.Classes.Interfaces
     {
         public Rectangle HitBox { get; }
         // This assumes that only 1 player may exist at one time
-        public DateTime LastTriggerTime { get; set; }
-        public float Cooldown { get; }
+        void Action(IPlayer self) { }
     }
 }

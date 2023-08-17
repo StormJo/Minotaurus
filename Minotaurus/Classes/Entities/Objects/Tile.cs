@@ -5,7 +5,7 @@ using System;
 
 namespace Minotaurus.Classes.Entities.Static
 {
-    public class Tile : IGameObject
+    public abstract class Tile : IGameObject
     {
         public Texture2D texture;
 

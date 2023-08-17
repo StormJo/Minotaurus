@@ -10,7 +10,7 @@ namespace Minotaurus.Classes.Entities.Characters
     public enum EDirection { VERTICAL, HORIZONTAL };
     public class Hero : IPlayer
     {
-        private Texture2D texture = Game1.Textures["spritesheetMinotaur"];
+        private Texture2D texture = MinoMaze.Textures["spritesheetMinotaur"];
         public Rectangle currentFrame;
         public Vector2 position;
         private Color _spriteColor;
@@ -45,11 +45,12 @@ namespace Minotaurus.Classes.Entities.Characters
         {
             position = startPosition;
             _spriteColor = Color.White;
+
             moveController = new MovementController();
             physics = new Physics();
             collisionDetector = new CollisionManager(this, physics, moveController);
             healthManager = new HealthManager(3);
-            pointManager = new PointManager();
+            pointManager = new PointManager(5);
             #region-Animations
             idleAnimationRight = new Animation(idleFPS);
             idleAnimationLeft = new Animation(idleFPS);

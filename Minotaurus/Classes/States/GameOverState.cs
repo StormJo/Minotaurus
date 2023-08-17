@@ -14,11 +14,11 @@ namespace Minotaurus.Classes.States
     internal class GameOverState : IState
     {
         private float elapsedTime = 0f;
-        private const float TimeToChangeState = 5f;
+        private const float TimeToChangeState = 3f;
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Game1.Textures["GameOver"], new Vector2(215,200) , new Rectangle(80,128,351,207), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(MinoMaze.Textures["GameOver"], new Vector2(215,200) , new Rectangle(80,128,351,207), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 
         public void Update(GameTime gameTime)
@@ -27,7 +27,7 @@ namespace Minotaurus.Classes.States
 
             if (elapsedTime >= TimeToChangeState)
             {
-                Game1.ChangeState(new MenuState());
+                MinoMaze.ChangeState(new MenuState());
             }
         }
     }

@@ -29,7 +29,7 @@ namespace Minotaurus.Classes.Entities.Static
         }
         public void Action(IPlayer self)
         {
-            self.healthManager.CurrentHealth++;
+            self.healthManager.AddHealth(1);
         }
     }
 }
