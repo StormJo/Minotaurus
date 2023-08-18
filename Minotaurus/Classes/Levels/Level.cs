@@ -123,28 +123,33 @@ namespace Minotaurus.Classes.Levels
                         {
                             gameObjects.Add(new EnvirnmontProp(j * _tileSize, i * _tileSize, texture, _map[i, j]));
                         }
-                    }
-                    if (texture.Name == "props")
-                    {
-                        if (_map[i, j] >= 22 && _map[i, j] <= 22)
+                        if (_map[i, j] >= 22 && _map[i, j] <= 24)
                         {
                             gameObjects.Add(new NoCollidingProp(j * _tileSize, i * _tileSize, texture, _map[i, j]));
                         }
-                        if (_map[i, j] >= 23 && _map[i, j] <= 23)
+                    }
+                    if (texture.Name == "props")
+                    {
+                        if (_map[i, j] >= 14 && _map[i, j] <= 21)
+                        {
+                            gameObjects.Add(new EnvirnmontProp(j * _tileSize, i * _tileSize, texture, _map[i, j]));
+                        }
+                        if (_map[i, j] >= 25 && _map[i, j] <= 25)
                         {
                             gameObjects.Add(new DamgeAbleProp(j * _tileSize, i * _tileSize, texture, _map[i, j]));
                         }
+
                     }
                     if (texture.Name == "Coin")
                     {
-                        if (_map[i, j] >= 24 && _map[i, j] <= 24)
+                        if (_map[i, j] >= 26 && _map[i, j] <= 26)
                         {
                             gameObjects.Add(new Coin(j * _tileSize, i * _tileSize, texture, _map[i, j]));
                         }
                     }
                     if (texture.Name == "HeartIcon")
                     {
-                        if (_map[i, j] >= 25 && _map[i, j] <= 25)
+                        if (_map[i, j] >= 27 && _map[i, j] <= 27)
                         {
                             gameObjects.Add(new Heart(j * _tileSize, i * _tileSize, texture, _map[i, j]));
                         }

@@ -34,7 +34,7 @@ namespace Minotaurus.Classes.Entities.Characters
 
         int walkFPS = 14;
         int idleFPS = 7;
-        int attackFPS = 15;
+        int attackFPS = 22;
         int jumpFPS = 1;
 
 
@@ -170,6 +170,10 @@ namespace Minotaurus.Classes.Entities.Characters
             UpdateCollision(gameTime);
 
             position = physics.Update(position, gameTime);
+
+            if(position.Y > 608)
+                healthManager.isDead = true;
+
             HitBox = new Rectangle((int)position.X, (int)position.Y, currentFrame.Width, currentFrame.Height);
         }
         public void Draw(SpriteBatch spriteBatch)

@@ -11,7 +11,7 @@ namespace Minotaurus.Classes.Entities.Static
 
         public DamgeAbleProp(int X, int Y, Texture2D texture, int sortProp) : base(X, Y, texture)
         {
-            if (sortProp == 23)// Spikes
+            if (sortProp == 25)// Spikes
             {
                 position = new Vector2((int)position.X, (int)position.Y + 7);
                 currentFrame = new Rectangle(144, 199, 16, 9);

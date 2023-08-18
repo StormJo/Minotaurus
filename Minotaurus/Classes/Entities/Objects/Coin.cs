@@ -15,7 +15,7 @@ namespace Minotaurus.Classes.Entities.Static
 
         public Coin(int X, int Y, Texture2D texture, int sortProp) : base(X, Y, texture)
         {
-            if (sortProp == 24)// Coin
+            if (sortProp == 26)// Coin
             {
                 position = new Vector2((int)position.X, (int)position.Y + 7);
                 currentFrame = new Rectangle(72, 72, 215, 215);

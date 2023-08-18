@@ -15,7 +15,7 @@ namespace Minotaurus.Classes.Entities.Static
 
         public Heart(int X, int Y, Texture2D texture, int sortProp) : base(X, Y, texture)
         {
-            if (sortProp == 25)// Heart
+            if (sortProp == 27)// Heart
             {
                 position = new Vector2((int)position.X, (int)position.Y + 7);
                 currentFrame = new Rectangle(0, 0, 90, 90);

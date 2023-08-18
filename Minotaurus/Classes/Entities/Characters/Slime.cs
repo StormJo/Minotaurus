@@ -26,13 +26,13 @@ namespace Minotaurus.Classes.Entities.Characters
             //IdleAnimationRight
             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(23, 177, 21, 16)));
             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(101, 180, 25, 12)));
-            idleAnimation.AddFrame(new AnimationFrame(new Rectangle(186, 154, 15, 38)));
+            idleAnimation.AddFrame(new AnimationFrame(new Rectangle(186, 154, 22, 38)));
             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(265, 148, 17, 45)));
             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(343, 148, 21, 45)));
             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(422, 147, 23, 45)));
             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(503, 149, 21, 45)));
             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(585, 148, 17, 45)));
-            idleAnimation.AddFrame(new AnimationFrame(new Rectangle(666, 155, 15, 38)));
+            idleAnimation.AddFrame(new AnimationFrame(new Rectangle(666, 155, 22, 38)));
             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(741, 181, 25, 13)));
             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(824, 177, 21, 17)));
             #endregion

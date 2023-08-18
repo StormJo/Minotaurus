@@ -18,7 +18,7 @@ namespace Minotaurus.Classes.Movement
         {
             if (!isFloored)
             {
-                    if (Keyboard.GetState().IsKeyDown(Keys.D))
+                    if (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right))
                     {
                         IsLeft = false;
                         IsRight = true;
@@ -26,7 +26,7 @@ namespace Minotaurus.Classes.Movement
                         State = State.Jumping;
                     }
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.Q))
+                    if (Keyboard.GetState().IsKeyDown(Keys.Q) || Keyboard.GetState().IsKeyDown(Keys.Left))
                     {
                         IsLeft = true;
                         IsRight = false;
@@ -40,14 +40,14 @@ namespace Minotaurus.Classes.Movement
                 State = State.Idle;
 
                 //JUMPING
-                if (Keyboard.GetState().IsKeyDown(Keys.Space) && isFloored)
+                if (Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.Up) && isFloored)
                 {
                     _physics.ImpulseY(-400f);
                     isFloored = false;
                     State = State.Jumping;
                 }
                 //MOVING RIGHT
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                if (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right))
                 {
                     IsLeft = false;
                     IsRight = true;
@@ -55,7 +55,7 @@ namespace Minotaurus.Classes.Movement
                     _physics.RunSpeed(1100f, 1, 1f,gameTime);
                 }
                 //MOVING LEFT
-                if (Keyboard.GetState().IsKeyDown(Keys.Q))
+                if (Keyboard.GetState().IsKeyDown(Keys.Q) || Keyboard.GetState().IsKeyDown(Keys.Left))
                 {
                     IsLeft = true;
                     IsRight = false;
@@ -65,8 +65,6 @@ namespace Minotaurus.Classes.Movement
 
                 _physics.MaxRunSpeed();
             }
-
-            //NextFramePosition = position + _physics.velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
     }
 }

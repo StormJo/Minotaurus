@@ -18,13 +18,13 @@ namespace Minotaurus.Classes.Entities.Static
             {
                 currentFrame = new Rectangle(80, 192, 16, 16);
             }
-            if(sortProp == 15) //Left side rock
+            if(sortProp == 22) //Left side rock
             {
                 currentFrame = new Rectangle(16,112,16, 16);
             }
             if(sortProp == 16) //right side of rock
             {
-                currentFrame = new Rectangle(32,112,16,16);
+                currentFrame = new Rectangle(32,112,10,16);
             }
             if(sortProp== 17) //Little 'G' Block
             {

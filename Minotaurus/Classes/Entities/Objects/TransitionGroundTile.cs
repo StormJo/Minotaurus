@@ -21,9 +21,9 @@ namespace Minotaurus.Classes.Entities.Static
             {
                 currentFrame = new Rectangle(80,48, 16, 16);
             }
-            else if(groundType == 13) //Left upper corner is stone
+            else if (groundType == 13) //Bottom is Stone
             {
-                currentFrame = new Rectangle(352, 32, 16, 16);
+                currentFrame = new Rectangle(48, 80, 16, 16);
             }
 
             HitBox = new Rectangle((int)position.X, (int)position.Y, currentFrame.Width, currentFrame.Height);
