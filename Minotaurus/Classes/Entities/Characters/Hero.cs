@@ -46,11 +46,11 @@ namespace Minotaurus.Classes.Entities.Characters
             position = startPosition;
             _spriteColor = Color.White;
 
-            moveController = new MovementController();
             physics = new Physics();
+            moveController = new MovementController(physics);
             collisionDetector = new CollisionManager(this, physics, moveController);
             healthManager = new HealthManager(3);
-            pointManager = new PointManager(5);
+            pointManager = new PointManager(3);
             #region-Animations
             idleAnimationRight = new Animation(idleFPS);
             idleAnimationLeft = new Animation(idleFPS);
@@ -107,7 +107,7 @@ namespace Minotaurus.Classes.Entities.Characters
         }
         public void Update(GameTime gameTime)
         {
-            moveController.update(physics, gameTime);
+            moveController.update(gameTime);
             healthManager.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             #region-AnimationRegulator
             Animation animation = null;

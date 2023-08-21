@@ -35,12 +35,12 @@ namespace Minotaurus.Classes.Levels
             Entities.Add(_heroMino);
 
             //Loading Textures + Adding GameObjects
-            gameObjects.Add(new Slime(MinoMaze.Textures["slime_jump"]));
-            gameObjects.Add(new GhostEnemy(_heroMino, MinoMaze.Textures["GhostSprite"]));
             LoadLevel(MinoMaze.Textures["tileset"]);
             LoadLevel(MinoMaze.Textures["props"]);
             LoadLevel(MinoMaze.Textures["Coin"]);
             LoadLevel(MinoMaze.Textures["HeartIcon"]);
+            LoadLevel(MinoMaze.Textures["GhostSprite"]);
+            LoadLevel(MinoMaze.Textures["slime_jump"]);
 
         }
 
@@ -136,7 +136,7 @@ namespace Minotaurus.Classes.Levels
                         }
                         if (_map[i, j] >= 25 && _map[i, j] <= 25)
                         {
-                            gameObjects.Add(new DamgeAbleProp(j * _tileSize, i * _tileSize, texture, _map[i, j]));
+                            gameObjects.Add(new DamageAbleProp(j * _tileSize, i * _tileSize, texture, _map[i, j]));
                         }
 
                     }
@@ -154,6 +154,21 @@ namespace Minotaurus.Classes.Levels
                             gameObjects.Add(new Heart(j * _tileSize, i * _tileSize, texture, _map[i, j]));
                         }
                     }
+                    if (texture.Name == "GhostSprite")
+                    {
+                        if (_map[i, j] >= 28 && _map[i, j] <= 28)
+                        {
+                            gameObjects.Add(new GhostEnemy(_heroMino, texture, new Vector2(j * _tileSize, i * _tileSize)));
+                        }
+                    }
+                    if (texture.Name == "slime_jump")
+                    {
+                        if (_map[i, j] >= 29 && _map[i, j] <= 29)
+                        {
+                            gameObjects.Add(new Slime(texture, new Vector2(j * _tileSize, i * _tileSize)));
+                        }
+                    }
+
                 }
             }
 

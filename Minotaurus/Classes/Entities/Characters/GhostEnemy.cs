@@ -18,18 +18,21 @@ namespace Minotaurus.Classes.Entities.Characters
         public Rectangle currentFrame;
 
         private Texture2D _texture;
-        private Vector2 _position = new Vector2(500, 300); //StartingtPosition
+        private Vector2 _position; //StartingtPosition
 
         public Rectangle HitBox { get; set; }
+
+        public int Damage { get; set; } = 1;
 
         public ChasingMovementController chaseMovementController;
 
         Animation idleAnimation;
 
-        public GhostEnemy(Hero hero, Texture2D texture)
+        public GhostEnemy(Hero hero, Texture2D texture, Vector2 startPosition)
         {
             this.hero = hero;
             _texture = texture;
+            _position = startPosition;
             chaseMovementController = new ChasingMovementController();
             #region-Animations
             idleAnimation = new Animation(10);
@@ -53,7 +56,7 @@ namespace Minotaurus.Classes.Entities.Characters
 
             //Logica
 
-            _position = chaseMovementController.updatePosition(_position, hero);
+            _position = chaseMovementController.updatePosition(_position, hero.getLocation());
         }
         public void Draw(SpriteBatch spriteBatch)
         {

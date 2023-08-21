@@ -6,7 +6,7 @@ namespace Minotaurus.Classes.Interfaces
     internal interface IDealDamage
     {
         public Rectangle HitBox { get; }
-        // This assumes that only 1 player may exist at one time
+        public int Damage { get; }
         void Action(IPlayer self) { }
     }
 }

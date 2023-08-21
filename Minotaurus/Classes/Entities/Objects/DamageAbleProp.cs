@@ -5,11 +5,13 @@ using System;
 
 namespace Minotaurus.Classes.Entities.Static
 {
-    internal class DamgeAbleProp : Tile, IDealDamage
+    internal class DamageAbleProp : Tile, IDealDamage
     {
         public Rectangle HitBox { get; }
 
-        public DamgeAbleProp(int X, int Y, Texture2D texture, int sortProp) : base(X, Y, texture)
+        public int Damage { get; set; } = 1;
+
+        public DamageAbleProp(int X, int Y, Texture2D texture, int sortProp) : base(X, Y, texture)
         {
             if (sortProp == 25)// Spikes
             {
@@ -21,7 +23,7 @@ namespace Minotaurus.Classes.Entities.Static
         }
         public void Action(IPlayer self)
         {
-            self.healthManager.InflictDamage(1);
+            self.healthManager.InflictDamage(Damage);
         }
     }
 }

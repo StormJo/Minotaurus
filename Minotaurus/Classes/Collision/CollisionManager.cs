@@ -19,7 +19,7 @@ namespace Minotaurus.Classes.Collision
         List<IGameObject> gameObjects;
         private IPlayer self;
         Physics Physics;
-        MovementController movementController = new MovementController();
+        MovementController movementController;
         public CollisionManager(IPlayer self, Physics physics, MovementController movementController) 
         {
             this.Physics = physics;

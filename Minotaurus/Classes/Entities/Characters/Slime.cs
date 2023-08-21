@@ -12,14 +12,17 @@ namespace Minotaurus.Classes.Entities.Characters
     {
         private Texture2D texture;
         public Rectangle currentFrame;
-        private Vector2 _position = new Vector2(27 * 16, 34 * 16); //Starting Position
+        private Vector2 _position; //Starting Position
         public Rectangle HitBox { get; set; }
+        public int Damage { get; } = 1;
+
         public PatrollingMovementController patrollingMovementController;
 
         Animation idleAnimation;
-        public Slime(Texture2D texture)
+        public Slime(Texture2D texture, Vector2 startPosition)
         {
             this.texture = texture;
+            _position = startPosition;
             patrollingMovementController = new PatrollingMovementController(100);
             #region-Animations
             idleAnimation = new Animation(10);
@@ -33,7 +36,7 @@ namespace Minotaurus.Classes.Entities.Characters
             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(503, 149, 21, 45)));
             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(585, 148, 17, 45)));
             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(666, 155, 22, 38)));
-            idleAnimation.AddFrame(new AnimationFrame(new Rectangle(741, 181, 25, 13)));
+            idleAnimation.AddFrame(new AnimationFrame(new Rectangle(741, 5, 25, 13)));
             idleAnimation.AddFrame(new AnimationFrame(new Rectangle(824, 177, 21, 17)));
             #endregion
         }
@@ -54,7 +57,7 @@ namespace Minotaurus.Classes.Entities.Characters
         }
         public void Action(IPlayer self)
         {
-            self.healthManager.InflictDamage(1);
+            self.healthManager.InflictDamage(Damage);
         }
     }
 }

@@ -45,15 +45,19 @@ namespace Minotaurus.Classes.Music
         {
             if (songs.Count == 0)
                 return;
-            MediaPlayer.Volume = 0.5f;
-            MediaPlayer.IsRepeating = true;
 
-            foreach (var song in songs.Values)
+            MediaPlayer.Volume = 0.05f;
+
+            while (true)
             {
-                MediaPlayer.Play(song);
-                while (MediaPlayer.State != MediaState.Stopped)
+                foreach (var song in songs.Values)
                 {
-                    await Task.Delay(100);
+                    MediaPlayer.Play(song);
+
+                    while (MediaPlayer.State != MediaState.Stopped)
+                    {
+                        await Task.Delay(100);
+                    }
                 }
             }
         }

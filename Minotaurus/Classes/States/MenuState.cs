@@ -17,6 +17,7 @@ namespace Minotaurus.Classes.States
         {
             spriteBatch.DrawString(MinoMaze.Arial, "MinoMaze", new Vector2(260, 150), Color.DarkBlue, 0, Vector2.Zero, 3f, SpriteEffects.None, 0);
             spriteBatch.DrawString(MinoMaze.Arial, "Try to collect all 3 coins", new Vector2(285, 210), Color.DarkBlue, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(MinoMaze.Arial, "Press any key to start", new Vector2(285, 240), Color.Gray, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
             spriteBatch.DrawString(MinoMaze.Arial, "Press Num1: Level 1", new Vector2(290, 270), Color.Black, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
             spriteBatch.DrawString(MinoMaze.Arial, "Press Num2: Level 2", new Vector2(290, 310), Color.Black, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
             spriteBatch.DrawString(MinoMaze.Arial, "Press Num3: Level 3", new Vector2(290, 350), Color.Black, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
@@ -33,6 +34,16 @@ namespace Minotaurus.Classes.States
             else if (Keyboard.GetState().IsKeyDown(Keys.NumPad2))
             {
                 MinoMaze.ChangeState(new GameState(2));
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.NumPad3))
+            {
+                MinoMaze.ChangeState(new GameState(3));
+            }
+            else if (Keyboard.GetState().GetPressedKeys().Length > 0)
+            {
+                Random random = new Random();
+                int randomState = random.Next(1, 4);
+                MinoMaze.ChangeState(new GameState(randomState));
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {

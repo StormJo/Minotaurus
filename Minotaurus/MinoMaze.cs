@@ -23,7 +23,6 @@ namespace Minotaurus
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private static IState _currentState;
-        private IState _nextState;
         private static Game self;
 
         private static RenderTarget2D _renderTarget;
@@ -102,7 +101,7 @@ namespace Minotaurus
             Window.AllowUserResizing = true;
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null, null, null);
-            _spriteBatch.Draw(Textures["back"], new Vector2(0, 0), new Rectangle(0, 0, 384, 240), Color.White, 0f, Vector2.Zero, 2.5f, SpriteEffects.None, 0f);
+            _spriteBatch.Draw(Textures["back"], new Vector2(0, 0), new Rectangle(0, 0, 384, 240), Color.White, 0f, Vector2.Zero, 2.6f, SpriteEffects.None, 0f);
             _currentState.Draw(_spriteBatch);
             _spriteBatch.End();
 

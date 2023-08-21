@@ -9,12 +9,16 @@ namespace Minotaurus.Classes.Movement
     {
         public State State { get; set; }
         public Vector2 NextFramePosition { get; set; }
-
+        private Physics _physics;
         public bool isFloored { get; set; }
         public bool IsLeft { get; set; } = false;
         public bool IsRight { get; set; } = true;
 
-        public void update(Physics _physics, GameTime gameTime)
+        public MovementController(Physics physics)
+        {
+            this._physics = physics;
+        }
+        public void update(GameTime gameTime)
         {
             if (!isFloored)
             {

@@ -11,13 +11,11 @@ namespace Minotaurus.Classes.Movement
 {
     internal class ChasingMovementController
     {
-        private Vector2 _locationPlayer;
         public ChasingMovementController() { }
-        public Vector2 updatePosition(Vector2 currentPosition, Hero hero)
+        public Vector2 updatePosition(Vector2 currentPosition, Vector2 location)
         {
-            _locationPlayer = hero.getLocation();
 
-            Vector2 direction = Vector2.Normalize(_locationPlayer - currentPosition);
+            Vector2 direction = Vector2.Normalize(location - currentPosition);
 
             currentPosition += direction;
 
