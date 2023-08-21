@@ -13,9 +13,9 @@ namespace Minotaurus.Classes.Movement
     {
         public Vector2 velocity = new Vector2(0, -1);
 
-        private float gravity = 981f;
-        private float maxSpeed = 175f;
-        private float floorFriction = 600f;
+        private float _gravity = 981f;
+        private float _maxSpeed = 175f;
+        private float _floorFriction = 600f;
 
         public void RunSpeed(float acceleration, int direction, float airMovement, GameTime gametime)
         {
@@ -24,12 +24,12 @@ namespace Minotaurus.Classes.Movement
 
         public void MaxRunSpeed()
         {
-            velocity.X = Math.Clamp(velocity.X, -maxSpeed, maxSpeed);
+            velocity.X = Math.Clamp(velocity.X, -_maxSpeed, _maxSpeed);
         }
         public void Friction(GameTime gametime)
         {
             float velocityXSign = MathF.Sign(velocity.X);
-            velocity.X -= MathF.Sign(velocity.X) * floorFriction * (float)gametime.ElapsedGameTime.TotalSeconds;
+            velocity.X -= MathF.Sign(velocity.X) * _floorFriction * (float)gametime.ElapsedGameTime.TotalSeconds;
 
             if (MathF.Abs(velocityXSign - MathF.Sign(velocity.X)) > 0f)
             {
@@ -42,7 +42,7 @@ namespace Minotaurus.Classes.Movement
         }
         public void ApplyGravity(GameTime gametime)
         {
-            velocity.Y += gravity * (float)gametime.ElapsedGameTime.TotalSeconds;
+            velocity.Y += _gravity * (float)gametime.ElapsedGameTime.TotalSeconds;
         }
         public void checkWalled(EDirection direction, MovementController movementController)
         {

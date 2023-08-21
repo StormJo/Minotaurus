@@ -14,7 +14,7 @@ namespace Minotaurus.Classes.Entities.Characters
 {
     internal class GhostEnemy : IGameObject, IDealDamage
     {
-        private Hero hero;
+        private Hero _hero;
         public Rectangle currentFrame;
 
         private Texture2D _texture;
@@ -30,7 +30,7 @@ namespace Minotaurus.Classes.Entities.Characters
 
         public GhostEnemy(Hero hero, Texture2D texture, Vector2 startPosition)
         {
-            this.hero = hero;
+            this._hero = hero;
             _texture = texture;
             _position = startPosition;
             chaseMovementController = new ChasingMovementController();
@@ -56,7 +56,7 @@ namespace Minotaurus.Classes.Entities.Characters
 
             //Logica
 
-            _position = chaseMovementController.updatePosition(_position, hero.getLocation());
+            _position = chaseMovementController.updatePosition(_position, _hero.getLocation());
         }
         public void Draw(SpriteBatch spriteBatch)
         {

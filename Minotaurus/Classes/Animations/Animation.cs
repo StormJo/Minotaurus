@@ -15,12 +15,12 @@ namespace Minotaurus.Classes.Animations
 
         private double secondCounter;
         public int counter;
-        private int fps { get; set; }
+        private int _fps { get; set; }
 
         public Animation(int fps)
         {
             frames = new List<AnimationFrame>();
-            this.fps = fps;
+            this._fps = fps;
         }
 
         public void AddFrame(AnimationFrame frame)
@@ -45,7 +45,7 @@ namespace Minotaurus.Classes.Animations
 
             secondCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (secondCounter >= 1d / this.fps)
+            if (secondCounter >= 1d / this._fps)
             {
                 counter++;
                 secondCounter = 0;

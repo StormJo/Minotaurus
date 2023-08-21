@@ -17,14 +17,14 @@ namespace Minotaurus.Classes.Collision
     internal class CollisionManager
     {
         List<IGameObject> gameObjects;
-        private IPlayer self;
+        private IPlayer _self;
         Physics Physics;
         MovementController movementController;
         public CollisionManager(IPlayer self, Physics physics, MovementController movementController) 
         {
             this.Physics = physics;
             this.movementController = movementController;
-            this.self = self;
+            this._self = self;
         }
 
         public void CheckCollision(Rectangle hitBox, EDirection direction)
@@ -43,14 +43,14 @@ namespace Minotaurus.Classes.Collision
                 if (gameObject == null)
                     continue;
 
-                if (gameObject == self)
+                if (gameObject == _self)
                     continue;
 
                 if (gameObject is ICollide collide)
                 {
                     if (hitBox.Intersects(collide.HitBox))
                     {
-                        Physics.checkWalled(direction, movementController); //Todo check direction before doing methods
+                        Physics.checkWalled(direction, movementController);
                         Physics.checkCeiling(direction, movementController); 
                     }
                 }
@@ -59,7 +59,7 @@ namespace Minotaurus.Classes.Collision
                 {
                     if(hitBox.Intersects(damageAble.HitBox))
                     {
-                        damageAble.Action(self);
+                        damageAble.Action(_self);
                     }
                 }
 
@@ -67,7 +67,7 @@ namespace Minotaurus.Classes.Collision
                 {
                     if (hitBox.Intersects(pickup.HitBox))
                     {
-                        pickup.Action(self);
+                        pickup.Action(_self);
                         objectsToRemove.Add(gameObject);
                     }
                 }

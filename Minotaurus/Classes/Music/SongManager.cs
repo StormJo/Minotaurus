@@ -10,16 +10,16 @@ namespace Minotaurus.Classes.Music
 {
     internal class SongManager
     {
-        private static SongManager instance;
+        private static SongManager _instance;
         public static SongManager Instance
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new SongManager();
+                    _instance = new SongManager();
                 }
-                return instance;
+                return _instance;
             }
         }
 

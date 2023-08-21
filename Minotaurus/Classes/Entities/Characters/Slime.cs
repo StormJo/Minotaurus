@@ -10,7 +10,7 @@ namespace Minotaurus.Classes.Entities.Characters
 {
     internal class Slime : IGameObject, IDealDamage
     {
-        private Texture2D texture;
+        private Texture2D _texture;
         public Rectangle currentFrame;
         private Vector2 _position; //Starting Position
         public Rectangle HitBox { get; set; }
@@ -21,7 +21,7 @@ namespace Minotaurus.Classes.Entities.Characters
         Animation idleAnimation;
         public Slime(Texture2D texture, Vector2 startPosition)
         {
-            this.texture = texture;
+            this._texture = texture;
             _position = startPosition;
             patrollingMovementController = new PatrollingMovementController(100);
             #region-Animations
@@ -53,7 +53,7 @@ namespace Minotaurus.Classes.Entities.Characters
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2((int)_position.X, (int)_position.Y), currentFrame, Color.White);
+            spriteBatch.Draw(_texture, new Vector2((int)_position.X, (int)_position.Y), currentFrame, Color.White);
         }
         public void Action(IPlayer self)
         {
